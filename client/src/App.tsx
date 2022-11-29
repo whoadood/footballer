@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Game, GameDetails } from "./types";
 
+// for comparison to game date
+const today = new Date();
+
 function App() {
   const [data, setData] = useState<Game[] | null>(null);
   const [active, setActive] = useState<[GameDetails, GameDetails] | null>(null);
@@ -10,6 +13,7 @@ function App() {
       try {
         const res = await fetch("http://localhost:5000/");
         const d = await res.json();
+        console.log("game list ", d);
         setData(d);
       } catch (err) {
         console.log("ERROR: ", err);
@@ -72,13 +76,19 @@ function App() {
               return (
                 <li
                   onClick={() => {
+                    if (today < new Date(game.Date) || game.AwayTeam === "BYE")
+                      return;
                     console.log("game", game);
                     getGameData(`${game.Week}`, game.GameKey, {
                       HOME: game.HomeTeam,
                       AWAY: game.AwayTeam,
                     });
                   }}
-                  className="bg-slate-500 hover:bg-red-200 flex flex-col rounded px-4 py-2 hover:cursor-pointer"
+                  className={`bg-slate-500 flex flex-col rounded px-4 py-2  ${
+                    today < new Date(game.Date) || game.AwayTeam === "BYE"
+                      ? "opacity-50 hover:bg-slate-500"
+                      : "hover:cursor-pointer hover:bg-red-200"
+                  }`}
                   key={game.GlobalGameID}
                 >
                   <h3 className="flex justify-center">
