@@ -3,7 +3,7 @@ import { Game } from "./types";
 
 export const getFootball = async (): Promise<Game[]> => {
   const res = await fetch(
-    `https://api.sportsdata.io/v3/nfl/scores/json/Schedules/2022`,
+    `https://api.sportsdata.io/v3/nfl/scores/json/Schedules/2022REG`,
     {
       headers: {
         "Ocp-Apim-Subscription-Key": process.env.SPORTSDATA_API_KEY as string,

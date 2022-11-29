@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getGameByTeam = exports.getFootball = void 0;
 const cross_fetch_1 = __importDefault(require("cross-fetch"));
 const getFootball = () => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield (0, cross_fetch_1.default)(`https://api.sportsdata.io/v3/nfl/scores/json/Schedules/2022`, {
+    const res = yield (0, cross_fetch_1.default)(`https://api.sportsdata.io/v3/nfl/scores/json/Schedules/2022REG`, {
         headers: {
             "Ocp-Apim-Subscription-Key": process.env.SPORTSDATA_API_KEY,
         },
