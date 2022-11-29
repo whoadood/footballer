@@ -49,4 +49,9 @@ app.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield (0, services_1.getFootball)();
     res.json(data);
 }));
+app.post("/game", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { week } = req.body;
+    const data = yield (0, services_1.getGameByTeam)(week);
+    res.json(data);
+}));
 app.listen(PORT, () => console.log(` 📡 Backend server: ` + ` Running in ${ENV} mode on port ${PORT}`));

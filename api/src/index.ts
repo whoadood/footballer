@@ -1,7 +1,7 @@
 import express, { Application, json, Request, Response } from "express";
 import cors from "cors";
 import { config } from "dotenv";
-import { getFootball } from "./services";
+import { getFootball, getGameByTeam } from "./services";
 
 config();
 
@@ -15,6 +15,12 @@ const ENV: string = process.env.NODE_ENV || "development";
 
 app.get("/", async (_req: Request, res: Response) => {
   const data = await getFootball();
+  res.json(data);
+});
+
+app.post("/game", async (req: Request, res: Response) => {
+  const { week } = req.body;
+  const data = await getGameByTeam(week);
   res.json(data);
 });
 
