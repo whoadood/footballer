@@ -1,7 +1,7 @@
 import express, { Application, json, Request, Response } from "express";
 import cors from "cors";
 import { config } from "dotenv";
-import { getFootball, getGameByTeam } from "./services";
+import { getFootball, getGameByTeam, getTeamPlayers } from "./services";
 
 config();
 
@@ -21,6 +21,13 @@ app.get("/", async (_req: Request, res: Response) => {
 app.post("/game", async (req: Request, res: Response) => {
   const { week } = req.body;
   const data = await getGameByTeam(week);
+  res.json(data);
+});
+
+app.post("/team", async (req: Request, res: Response) => {
+  const { team } = req.body;
+  console.log("server team", team);
+  const data = await getTeamPlayers(team);
   res.json(data);
 });
 

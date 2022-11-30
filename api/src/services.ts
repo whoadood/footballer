@@ -24,3 +24,15 @@ export const getGameByTeam = async (week: string) => {
   );
   return res.json();
 };
+
+export const getTeamPlayers = async (team: string) => {
+  const res = await fetch(
+    `https://api.sportsdata.io/v3/nfl/scores/json/Players/${team}`,
+    {
+      headers: {
+        "Ocp-Apim-Subscription-Key": process.env.SPORTSDATA_API_KEY as string,
+      },
+    }
+  );
+  return res.json();
+};

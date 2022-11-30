@@ -7,6 +7,7 @@ const today = new Date();
 function App() {
   const [data, setData] = useState<Game[] | null>(null);
   const [active, setActive] = useState<[GameDetails, GameDetails] | null>(null);
+  const [team, setTeam] = useState<any | null>(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -22,6 +23,22 @@ function App() {
     getData();
   }, []);
 
+  const getTeamData = async (team: string) => {
+    try {
+      const res = await fetch("http://localhost:5000/team", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ team }),
+      });
+      const d = await res.json();
+      console.log("getTeamData: ", d);
+    } catch (err) {
+      console.log("ERROR: ", err);
+    }
+  };
+
   const getGameData = async (
     week: string,
     gamekey: string,
@@ -34,9 +51,7 @@ function App() {
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({
-          week,
-        }),
+        body: JSON.stringify({ week }),
       });
       const d = await res.json();
 
@@ -60,19 +75,26 @@ function App() {
           {active !== null && (
             <div>
               <h3>
-                <p>
-                  {active[0].TeamName} {active[0].Score}
-                </p>
-                <p>
-                  {active[1].TeamName} {active[1].Score}
-                </p>
+                {active.map((t) => {
+                  return (
+                    <p
+                      key={t.Team}
+                      className="hover:cursor-pointer text-gray-400 hover:text-white font-bold"
+                      onClick={() => {
+                        getTeamData(t.Team);
+                      }}
+                    >
+                      {t.TeamName} {t.Score}
+                    </p>
+                  );
+                })}
               </h3>
             </div>
           )}
         </div>
         <ul className="my-4 grid gap-2 grid-cols-6">
           {data &&
-            data.map((game: Game) => {
+            data.map((game: Game, index) => {
               return (
                 <li
                   onClick={() => {
@@ -89,7 +111,7 @@ function App() {
                       ? "opacity-50 hover:bg-slate-500"
                       : "hover:cursor-pointer hover:bg-red-200"
                   }`}
-                  key={game.GlobalGameID}
+                  key={`${game.GlobalGameID} ${index}`}
                 >
                   <h3 className="flex justify-center">
                     <p>{game.AwayTeam}</p>
