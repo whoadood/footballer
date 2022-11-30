@@ -70,7 +70,7 @@ function App() {
             </div>
           )}
         </div>
-        <ul className="my-4 flex gap-2 flex-wrap">
+        <ul className="my-4 grid gap-2 grid-cols-6">
           {data &&
             data.map((game: Game) => {
               return (
