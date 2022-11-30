@@ -3,8 +3,9 @@ import cors from "cors";
 import { config } from "dotenv";
 import {
   getDepthChart,
-  getFootball,
+  getSchedule,
   getGameByTeam,
+  getLeagueStandings,
   getTeamPlayers,
 } from "./utils/services";
 import { filterByPosition } from "./utils/data-manip";
@@ -20,8 +21,10 @@ const PORT: string | number = process.env.PORT || 5000;
 const ENV: string = process.env.NODE_ENV || "development";
 
 app.get("/", async (_req: Request, res: Response) => {
-  const data = await getFootball();
-  res.json(data);
+  const schedule = await getSchedule();
+  const standings = await getLeagueStandings();
+
+  res.json({ schedule, standings });
 });
 
 app.get("/depth", async (_req: Request, res: Response) => {

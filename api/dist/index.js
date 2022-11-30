@@ -47,8 +47,9 @@ app.use((0, express_1.json)());
 const PORT = process.env.PORT || 5000;
 const ENV = process.env.NODE_ENV || "development";
 app.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield (0, services_1.getFootball)();
-    res.json(data);
+    const schedule = yield (0, services_1.getSchedule)();
+    const standings = yield (0, services_1.getLeagueStandings)();
+    res.json({ schedule, standings });
 }));
 app.get("/depth", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield (0, services_1.getDepthChart)();

@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { Game, GameDetails } from "./types";
+import { Game, GameDetails, Standing } from "./types";
 
 // for comparison to game date
 const today = new Date();
 
 function App() {
-  const [data, setData] = useState<Game[] | null>(null);
+  const [data, setData] = useState<{
+    schedule: Game[];
+    standings: Standing[];
+  } | null>(null);
   const [active, setActive] = useState<[GameDetails, GameDetails] | null>(null);
   const [team, setTeam] = useState<any | null>(null);
 
@@ -14,7 +17,7 @@ function App() {
       try {
         const res = await fetch("http://localhost:5000/");
         const d = await res.json();
-        console.log("game list ", d);
+        console.log("'/' data: ", d);
         setData(d);
       } catch (err) {
         console.log("ERROR: ", err);
@@ -71,6 +74,67 @@ function App() {
     <div className="bg-slate-800 min-h-screen py-8 text-white max-w-screen">
       <div className="max-w-7xl mx-auto">
         <h2 className="my-4">Foot Baller</h2>
+        <div className="my-8">
+          <h3>Standings</h3>
+          <div className="flex gap-4">
+            <div>
+              <h4 className="text-xl font-bold my-2 text-center">AFC</h4>
+              <div className="grid grid-cols-3 gap-2">
+                {data?.standings.map((team) => {
+                  if (team.Conference === "AFC") {
+                    return (
+                      <div className="bg-slate-900 p-2 rounded">
+                        <h4>{team.Name}</h4>
+                        <div>
+                          <p className="text-gray-400">
+                            wins:{" "}
+                            <span className="text-white">{team.Wins}</span>
+                          </p>
+                          <p className="text-gray-400">
+                            losses:{" "}
+                            <span className="text-white">{team.Losses}</span>
+                          </p>
+                          <p className="text-gray-400">
+                            ties:{" "}
+                            <span className="text-white">{team.Ties}</span>
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+            <div>
+              <h4 className="text-xl font-bold my-2 text-center">NFC</h4>
+              <div className="grid grid-cols-3 gap-2">
+                {data?.standings.map((team) => {
+                  if (team.Conference === "NFC") {
+                    return (
+                      <div className="bg-slate-900 p-2 rounded">
+                        <h4>{team.Name}</h4>
+                        <div>
+                          <p className="text-gray-400">
+                            wins:{" "}
+                            <span className="text-white">{team.Wins}</span>
+                          </p>
+                          <p className="text-gray-400">
+                            losses:{" "}
+                            <span className="text-white">{team.Losses}</span>
+                          </p>
+                          <p className="text-gray-400">
+                            ties:{" "}
+                            <span className="text-white">{team.Ties}</span>
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
         <div>
           {active !== null && (
             <div>
@@ -94,7 +158,7 @@ function App() {
         </div>
         <ul className="my-4 grid gap-2 grid-cols-6">
           {data &&
-            data.map((game: Game, index) => {
+            data?.schedule.map((game: Game, index) => {
               return (
                 <li
                   onClick={() => {
