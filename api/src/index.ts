@@ -7,6 +7,7 @@ import {
   getGameByTeam,
   getLeagueStandings,
   getTeamPlayers,
+  getTeamsDetails,
 } from "./utils/services";
 import { filterByPosition } from "./utils/data-manip";
 
@@ -21,10 +22,17 @@ const PORT: string | number = process.env.PORT || 5000;
 const ENV: string = process.env.NODE_ENV || "development";
 
 app.get("/", async (_req: Request, res: Response) => {
+  const teams = await getTeamsDetails();
   const schedule = await getSchedule();
   const standings = await getLeagueStandings();
+  const teamsStandings = standings.map((team) => {
+    const teamDetails = teams.filter(
+      (t) => t.GlobalTeamID === team.GlobalTeamID
+    );
+    return { ...team, ...teamDetails[0] };
+  });
 
-  res.json({ schedule, standings });
+  res.json({ standings: teamsStandings, schedule });
 });
 
 app.get("/depth", async (_req: Request, res: Response) => {

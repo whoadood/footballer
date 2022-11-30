@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Game, GameDetails, Standing } from "./types";
+import { Game, GameDetails, Standing, TeamDetails } from "./types";
+import StandingCard from "./components/StandingCard";
 
 // for comparison to game date
 const today = new Date();
@@ -7,7 +8,7 @@ const today = new Date();
 function App() {
   const [data, setData] = useState<{
     schedule: Game[];
-    standings: Standing[];
+    standings: (Standing & TeamDetails)[];
   } | null>(null);
   const [active, setActive] = useState<[GameDetails, GameDetails] | null>(null);
   const [team, setTeam] = useState<any | null>(null);
@@ -71,66 +72,38 @@ function App() {
   };
 
   return (
-    <div className="bg-slate-800 min-h-screen py-8 text-white max-w-screen">
-      <div className="max-w-7xl mx-auto">
+    <div className="bg-slate-800 min-h-screen py-8 text-white max-w-screen ">
+      <div className="max-w-7xl mx-auto px-2">
         <h2 className="my-4">Foot Baller</h2>
         <div className="my-8">
           <h3>Standings</h3>
-          <div className="flex gap-4">
+          <div className="flex flex-col gap-4">
             <div>
               <h4 className="text-xl font-bold my-2 text-center">AFC</h4>
-              <div className="grid grid-cols-3 gap-2">
-                {data?.standings.map((team) => {
-                  if (team.Conference === "AFC") {
-                    return (
-                      <div className="bg-slate-900 p-2 rounded">
-                        <h4>{team.Name}</h4>
-                        <div>
-                          <p className="text-gray-400">
-                            wins:{" "}
-                            <span className="text-white">{team.Wins}</span>
-                          </p>
-                          <p className="text-gray-400">
-                            losses:{" "}
-                            <span className="text-white">{team.Losses}</span>
-                          </p>
-                          <p className="text-gray-400">
-                            ties:{" "}
-                            <span className="text-white">{team.Ties}</span>
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  }
-                })}
+              <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+                {data?.standings
+                  .sort((a, b) => a.ConferenceRank - b.ConferenceRank)
+                  .map((team) => {
+                    if (team.Conference === "AFC") {
+                      return (
+                        <StandingCard key={team.GlobalTeamID} team={team} />
+                      );
+                    }
+                  })}
               </div>
             </div>
             <div>
               <h4 className="text-xl font-bold my-2 text-center">NFC</h4>
-              <div className="grid grid-cols-3 gap-2">
-                {data?.standings.map((team) => {
-                  if (team.Conference === "NFC") {
-                    return (
-                      <div className="bg-slate-900 p-2 rounded">
-                        <h4>{team.Name}</h4>
-                        <div>
-                          <p className="text-gray-400">
-                            wins:{" "}
-                            <span className="text-white">{team.Wins}</span>
-                          </p>
-                          <p className="text-gray-400">
-                            losses:{" "}
-                            <span className="text-white">{team.Losses}</span>
-                          </p>
-                          <p className="text-gray-400">
-                            ties:{" "}
-                            <span className="text-white">{team.Ties}</span>
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  }
-                })}
+              <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+                {data?.standings
+                  .sort((a, b) => a.ConferenceRank - b.ConferenceRank)
+                  .map((team) => {
+                    if (team.Conference === "NFC") {
+                      return (
+                        <StandingCard key={team.GlobalTeamID} team={team} />
+                      );
+                    }
+                  })}
               </div>
             </div>
           </div>
@@ -156,37 +129,48 @@ function App() {
             </div>
           )}
         </div>
-        <ul className="my-4 grid gap-2 grid-cols-6">
-          {data &&
-            data?.schedule.map((game: Game, index) => {
-              return (
-                <li
-                  onClick={() => {
-                    if (today < new Date(game.Date) || game.AwayTeam === "BYE")
-                      return;
-                    console.log("game", game);
-                    getGameData(`${game.Week}`, game.GameKey, {
-                      HOME: game.HomeTeam,
-                      AWAY: game.AwayTeam,
-                    });
-                  }}
-                  className={`bg-slate-500 flex flex-col rounded px-4 py-2  ${
-                    today < new Date(game.Date) || game.AwayTeam === "BYE"
-                      ? "opacity-50 hover:bg-slate-500"
-                      : "hover:cursor-pointer hover:bg-red-200"
-                  }`}
-                  key={`${game.GlobalGameID} ${index}`}
-                >
-                  <h3 className="flex justify-center">
-                    <p>{game.AwayTeam}</p>
-                    <span className="mx-2">vs</span>
-                    <p>{game.HomeTeam}</p>
-                  </h3>
-                  <p>{game.Date}</p>
-                </li>
-              );
-            })}
-        </ul>
+        <div>
+          <h3>Schedule</h3>
+          <ul className="my-4 grid gap-2 grid-cols-4 lg:grid-cols-7 md:grid-cols-6">
+            {data &&
+              data?.schedule.map((game: Game, index) => {
+                return (
+                  <li
+                    onClick={() => {
+                      if (
+                        today < new Date(game.Date) ||
+                        game.AwayTeam === "BYE"
+                      )
+                        return;
+                      console.log("game", game);
+                      getGameData(`${game.Week}`, game.GameKey, {
+                        HOME: game.HomeTeam,
+                        AWAY: game.AwayTeam,
+                      });
+                    }}
+                    className={`bg-slate-500 flex flex-col rounded sm:px-4 py-2  ${
+                      today < new Date(game.Date) || game.AwayTeam === "BYE"
+                        ? "opacity-50 hover:bg-slate-500"
+                        : "hover:cursor-pointer hover:bg-red-200"
+                    }`}
+                    key={`${game.GlobalGameID} ${index}`}
+                  >
+                    <h3 className="flex justify-center">
+                      <p>{game.AwayTeam}</p>
+                      <span className="mx-2">vs</span>
+                      <p>{game.HomeTeam}</p>
+                    </h3>
+                    {game.Date && (
+                      <>
+                        <p className="text-center">{game.Date.split("T")[0]}</p>
+                        <p className="text-center">{game.Date.split("T")[1]}</p>
+                      </>
+                    )}
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
       </div>
     </div>
   );

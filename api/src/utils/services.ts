@@ -1,20 +1,20 @@
 import fetch from "cross-fetch";
-import { Game, TeamBase } from "./types";
+import { Game, Standing, TeamBase, TeamDetails } from "./types";
 
-const fletcher = async (url: string) => {
-  const response = await fetch(url, {
+const fletcher = async <T>(url: string): Promise<T> => {
+  const res = await fetch(url, {
     headers: {
       "Ocp-Apim-Subscription-Key": process.env.SPORTSDATA_API_KEY as string,
     },
   });
-  return response.json();
+  return res.json();
 };
 
 export const getSchedule = async (): Promise<Game[]> => {
   const res = await fletcher(
     `https://api.sportsdata.io/v3/nfl/scores/json/Schedules/2022REG`
   );
-  return res;
+  return res as Game[];
 };
 
 export const getGameByTeam = async (week: string) => {
@@ -35,12 +35,19 @@ export const getDepthChart = async (): Promise<TeamBase[]> => {
   const res = await fletcher(
     "https://api.sportsdata.io/v3/nfl/scores/json/DepthCharts"
   );
-  return res;
+  return res as TeamBase[];
 };
 
-export const getLeagueStandings = async (): Promise<any> => {
+export const getLeagueStandings = async (): Promise<Standing[]> => {
   const res = await fletcher(
     "https://api.sportsdata.io/v3/nfl/scores/json/Standings/2022"
   );
-  return res;
+  return res as Standing[];
+};
+
+export const getTeamsDetails = async (): Promise<TeamDetails[]> => {
+  const res = await fletcher(
+    "https://api.sportsdata.io/v3/nfl/scores/json/AllTeams"
+  );
+  return res as TeamDetails[];
 };

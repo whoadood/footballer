@@ -83,3 +83,48 @@ export type Standing = {
   Touchdowns: number;
   Wins: number;
 };
+export type TeamDetails = {
+  Key: string; // "ARI"
+  TeamID: number;
+  PlayerID: number;
+  City: string; // "Arizona"
+  Name: string; // "Cardinals"
+  Conference: string; // "NFC"
+  Division: string; // "West"
+  FullName: string; // "Arizona Cardinals"
+  StadiumID: number;
+  ByeWeek: number;
+  AverageDraftPosition: number;
+  AverageDraftPositionPPR: number;
+  HeadCoach: string; // "Kliff Kingsbury"
+  OffensiveCoordinator: string; // "Kliff Kingsbury"
+  DefensiveCoordinator: string; // "Vance Joseph"
+  SpecialTeamsCoach: string; // "Jeff Rodgers"
+  OffensiveScheme: string; // "3WR"
+  DefensiveScheme: string; // "3-4"
+  UpcomingSalary: number;
+  UpcomingOpponent: string; // "Scrambled"
+  UpcomingOpponentRank: number;
+  UpcomingOpponentPositionRank: number;
+  UpcomingFanDuelSalary: unknown | null;
+  UpcomingDraftKingsSalary: unknown | null;
+  UpcomingYahooSalary: unknown | null;
+  PrimaryColor: string; // "97233F"
+  SecondaryColor: string; // "FFFFFF"
+  TertiaryColor: string; // "000000"
+  QuaternaryColor: unknown | null;
+  WikipediaLogoUrl: string; // "https://upload.wikimedia.org/wikipedia/en/7/72/Arizona_Cardinals_logo.svg"
+  WikipediaWordMarkUrl: string; // "https://upload.wikimedia.org/wikipedia/commons/0/04/Arizona_Cardinals_wordmark.svg"
+  GlobalTeamID: number;
+  DraftKingsName: string; // "Cardinals"
+  DraftKingsPlayerID: number;
+  FanDuelName: string; // "Arizona Cardinals"
+  FanDuelPlayerID: number;
+  FantasyDraftName: string; // "Arizona Cardinals"
+  FantasyDraftPlayerID: number;
+  YahooName: string; // "Arizona Cardinals"
+  YahooPlayerID: number;
+  AverageDraftPosition2QB: number;
+  AverageDraftPositionDynasty: number;
+  StadiumDetails: StadiumDetails;
+};
