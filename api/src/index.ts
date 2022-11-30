@@ -1,7 +1,13 @@
 import express, { Application, json, Request, Response } from "express";
 import cors from "cors";
 import { config } from "dotenv";
-import { getFootball, getGameByTeam, getTeamPlayers } from "./services";
+import {
+  getDepthChart,
+  getFootball,
+  getGameByTeam,
+  getTeamPlayers,
+} from "./utils/services";
+import { filterByPosition } from "./utils/data-manip";
 
 config();
 
@@ -16,6 +22,14 @@ const ENV: string = process.env.NODE_ENV || "development";
 app.get("/", async (_req: Request, res: Response) => {
   const data = await getFootball();
   res.json(data);
+});
+
+app.get("/depth", async (_req: Request, res: Response) => {
+  const data = await getDepthChart();
+  const qb = filterByPosition(data, "QB");
+  const wr = filterByPosition(data, "WR");
+  const rb = filterByPosition(data, "RB");
+  res.json({ qb, wr, rb });
 });
 
 app.post("/game", async (req: Request, res: Response) => {

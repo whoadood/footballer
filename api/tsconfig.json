@@ -21,6 +21,6 @@
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "src/types.ts", "src/types.ts"],
+  "include": ["src/**/*", "src/utils/types.ts", "src/utils/types.ts"],
   "exclude": ["src/types/*.ts", "node_modules", ".vscode"]
 }

@@ -41,3 +41,19 @@ type StadiumDetails = {
   GeoLong: number;
   Type: string; // Dome
 };
+export type TeamBase = {
+  TeamID: number;
+  Offense: PlayerBase[];
+  Defense: PlayerBase[];
+  SpecialTeams: PlayerBase[];
+};
+export type PlayerBase = {
+  DepthChartID: number; // 141;
+  TeamID: number;
+  PlayerID: number;
+  Name: string;
+  PositionCategory: string; // "ST";
+  Position: string; // "P";
+  DepthOrder: number;
+  Updated: string;
+};
