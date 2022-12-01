@@ -73,10 +73,15 @@ app.get("/depth", (_req, res) => __awaiter(void 0, void 0, void 0, function* () 
     res.json({ qb, wr, rb });
 }));
 app.post("/game", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { week, teamId } = req.body;
+    const { week, gameId } = req.body;
     const data = yield (0, services_1.getGameByTeam)(week);
-    const gameDetails = data.filter((g) => g.GlobalTeamID === teamId)[0];
-    res.json(gameDetails);
+    const teams = yield (0, services_1.getTeamsDetails)();
+    const gameDetails = data.filter((g) => g.GlobalGameID == gameId);
+    const formatDetails = gameDetails.map((team) => {
+        const teamDetails = teams.filter((t) => t.GlobalTeamID === team.GlobalTeamID);
+        return Object.assign(Object.assign({}, team), teamDetails[0]);
+    });
+    res.json(formatDetails);
 }));
 app.post("/team", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { team } = req.body;

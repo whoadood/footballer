@@ -52,10 +52,18 @@ app.get("/depth", async (_req: Request, res: Response) => {
 });
 
 app.post("/game", async (req: Request, res: Response) => {
-  const { week, teamId } = req.body;
+  const { week, gameId } = req.body;
   const data = await getGameByTeam(week);
-  const gameDetails = data.filter((g) => g.GlobalTeamID === teamId)[0];
-  res.json(gameDetails);
+  const teams = await getTeamsDetails();
+  const gameDetails = data.filter((g) => g.GlobalGameID == gameId);
+  const formatDetails = gameDetails.map((team) => {
+    const teamDetails = teams.filter(
+      (t) => t.GlobalTeamID === team.GlobalTeamID
+    );
+    return { ...team, ...teamDetails[0] };
+  });
+
+  res.json(formatDetails);
 });
 
 app.post("/team", async (req: Request, res: Response) => {

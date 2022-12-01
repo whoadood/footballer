@@ -1,29 +1,12 @@
 import React, { useState } from "react";
 import { Game, GameDetails, ScheduleType } from "../types";
+import { Link } from "react-router-dom";
 
 // for comparison to game date
 const today = new Date();
 
 export default function Schedule({ schedule }: { schedule: ScheduleType }) {
   const [active, setActive] = useState<string>("week1");
-
-  const getGameData = async (week: string, teamId: number) => {
-    try {
-      const res = await fetch("http://localhost:5000/game", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ week, teamId }),
-      });
-      const d: GameDetails = await res.json();
-
-      console.log("thisGame: ", d);
-    } catch (err) {
-      console.log("ERROR: ", err);
-    }
-  };
-
   const weeks = Object.keys(schedule);
   //   .sort(
   //     (a, b) => Number(a.split("week")[0]) - Number(b.split("week")[0])
@@ -55,12 +38,6 @@ export default function Schedule({ schedule }: { schedule: ScheduleType }) {
           {schedule[active].map((game, index) => {
             return (
               <li
-                onClick={() => {
-                  if (today < new Date(game.Date) || game.AwayTeam === "BYE")
-                    return;
-                  console.log("game", game);
-                  getGameData(`${game.Week}`, game.GlobalHomeTeamID);
-                }}
                 className={`bg-slate-500 flex flex-col rounded sm:px-4 py-2  ${
                   today < new Date(game.Date) || game.AwayTeam === "BYE"
                     ? "opacity-50 hover:bg-slate-500 hover:cursor-pointer hover:border-slate-200 border-2 border-slate-800"
@@ -68,17 +45,19 @@ export default function Schedule({ schedule }: { schedule: ScheduleType }) {
                 }`}
                 key={`${game.GlobalGameID} ${index}`}
               >
-                <h5 className="flex justify-center">
-                  <p>{game.AwayTeam}</p>
-                  <span className="mx-2">vs</span>
-                  <p>{game.HomeTeam}</p>
-                </h5>
-                {game.Date && (
-                  <>
-                    <p className="text-center">{game.Date.split("T")[0]}</p>
-                    <p className="text-center">{game.Date.split("T")[1]}</p>
-                  </>
-                )}
+                <Link to={`games/${game.GlobalGameID}/${active}`}>
+                  <h5 className="flex justify-center">
+                    <p>{game.AwayTeam}</p>
+                    <span className="mx-2">vs</span>
+                    <p>{game.HomeTeam}</p>
+                  </h5>
+                  {game.Date && (
+                    <>
+                      <p className="text-center">{game.Date.split("T")[0]}</p>
+                      <p className="text-center">{game.Date.split("T")[1]}</p>
+                    </>
+                  )}
+                </Link>
               </li>
             );
           })}
