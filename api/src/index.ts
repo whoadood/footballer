@@ -31,8 +31,16 @@ app.get("/", async (_req: Request, res: Response) => {
     );
     return { ...team, ...teamDetails[0] };
   });
+  const formatSchedule = schedule.reduce((acc: any, cur) => {
+    if (acc[`week${cur.Week}`]) {
+      acc[`week${cur.Week}`].push(cur);
+    } else {
+      acc[`week${cur.Week}`] = [cur];
+    }
+    return acc;
+  }, {});
 
-  res.json({ standings: teamsStandings, schedule });
+  res.json({ standings: teamsStandings, schedule: formatSchedule });
 });
 
 app.get("/depth", async (_req: Request, res: Response) => {
@@ -44,9 +52,10 @@ app.get("/depth", async (_req: Request, res: Response) => {
 });
 
 app.post("/game", async (req: Request, res: Response) => {
-  const { week } = req.body;
+  const { week, teamId } = req.body;
   const data = await getGameByTeam(week);
-  res.json(data);
+  const gameDetails = data.filter((g) => g.GlobalTeamID === teamId)[0];
+  res.json(gameDetails);
 });
 
 app.post("/team", async (req: Request, res: Response) => {

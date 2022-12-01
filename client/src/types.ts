@@ -356,3 +356,4 @@ export type TeamDetails = {
   AverageDraftPositionDynasty: number;
   StadiumDetails: StadiumDetails;
 };
+export type ScheduleType = Record<string, Game[]>;

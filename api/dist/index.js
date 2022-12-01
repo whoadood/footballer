@@ -54,7 +54,16 @@ app.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const teamDetails = teams.filter((t) => t.GlobalTeamID === team.GlobalTeamID);
         return Object.assign(Object.assign({}, team), teamDetails[0]);
     });
-    res.json({ standings: teamsStandings, schedule });
+    const formatSchedule = schedule.reduce((acc, cur) => {
+        if (acc[`week${cur.Week}`]) {
+            acc[`week${cur.Week}`].push(cur);
+        }
+        else {
+            acc[`week${cur.Week}`] = [cur];
+        }
+        return acc;
+    }, {});
+    res.json({ standings: teamsStandings, schedule: formatSchedule });
 }));
 app.get("/depth", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield (0, services_1.getDepthChart)();
@@ -64,9 +73,10 @@ app.get("/depth", (_req, res) => __awaiter(void 0, void 0, void 0, function* () 
     res.json({ qb, wr, rb });
 }));
 app.post("/game", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { week } = req.body;
+    const { week, teamId } = req.body;
     const data = yield (0, services_1.getGameByTeam)(week);
-    res.json(data);
+    const gameDetails = data.filter((g) => g.GlobalTeamID === teamId)[0];
+    res.json(gameDetails);
 }));
 app.post("/team", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { team } = req.body;

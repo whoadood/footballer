@@ -1,5 +1,5 @@
 import fetch from "cross-fetch";
-import { Game, Standing, TeamBase, TeamDetails } from "./types";
+import { Game, GameDetails, Standing, TeamBase, TeamDetails } from "./types";
 
 const fletcher = async <T>(url: string): Promise<T> => {
   const res = await fetch(url, {
@@ -21,7 +21,7 @@ export const getGameByTeam = async (week: string) => {
   const res = await fletcher(
     `https://api.sportsdata.io/v3/nfl/scores/json/TeamGameStats/2022/${week}`
   );
-  return res;
+  return res as GameDetails[];
 };
 
 export const getTeamPlayers = async (team: string) => {
