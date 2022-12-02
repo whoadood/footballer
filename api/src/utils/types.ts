@@ -372,3 +372,89 @@ export type GameDetails = {
   Week: number;
   WindSpeed: number;
 };
+
+export type Weather = {
+  location: {
+    name: string; // "Chicago"
+    region: string; // "Illinois"
+    country: string; // "United States of America"
+    lat: number; // 41.85
+    lon: number; // -87.65;
+    tz_id: string; // "America/Chicago"
+    localtime_epoch: number; // 1669970437
+    localtime: string; // "2022-12-02 2:40"
+  };
+  forecast: {
+    forecastday: {
+      date: string; // "2022-11-18"
+      date_epoch: number; // 1668729600
+      day: {
+        maxtemp_c: number; // -2.8
+        maxtemp_f: number; //  27.0
+        mintemp_c: number; // -6.1
+        mintemp_f: number; //  21.0
+        avgtemp_c: number; // -4.3
+        avgtemp_f: number; //  24.3
+        maxwind_mph: number; // 17.0
+        maxwind_kph: number; // 27.4
+        totalprecip_mm: number; // 0.0
+        totalprecip_in: number; // 0.0
+        avgvis_km: number; // 9.0
+        avgvis_miles: number; // 5.0
+        avghumidity: number; // 70.0
+        condition: {
+          text: string; // "Light snow showers"
+          icon: string; // "//cdn.weatherapi.com/weather/64x64/day/368.png"
+          code: number; // 1255
+        };
+        uv: number; // 0.0
+      };
+      astro: {
+        sunrise: string; // "06:44 AM"
+        sunset: string; // "04:27 PM";
+        moonrise: string; // "12:38 AM";
+        moonset: string; // "02:01 PM";
+        moon_phase: string; // "Third Quarter";
+        moon_illumination: string; // "37";
+      };
+      hour: {
+        time_epoch: number; // 1668751200
+        time: string; // "2022-11-18 00:00"
+        temp_c: number; // -3.1
+        temp_f: number; // 26.4
+        is_day: number; // 0
+        condition: {
+          text: string; // "Light snow showers"
+          icon: string; // "//cdn.weatherapi.com/weather/64x64/night/368.png"
+          code: number; // 1255
+        };
+        wind_mph: number; // 15.9
+        wind_kph: number; // 25.6
+        wind_degree: number; // 271
+        wind_dir: string; // "W"
+        pressure_mb: number; // 1021.0
+        pressure_in: number; // 30.15
+        precip_mm: number; // 0.0
+        precip_in: number; // 0.0
+        humidity: number; // 74
+        cloud: number; // 89
+        feelslike_c: number; // -10.0
+        feelslike_f: number; // 14.0
+        windchill_c: number; // -10.0
+        windchill_f: number; // 14.0
+        heatindex_c: number; // -3.1
+        heatindex_f: number; // 26.4
+        dewpoint_c: number; // -7.0
+        dewpoint_f: number; // 19.4
+        will_it_rain: number; // 0
+        chance_of_rain: number; // 0
+        will_it_snow: number; // 0
+        chance_of_snow: number; // 0
+        vis_km: number; // 10.0
+        vis_miles: number; // 6.0
+        gust_mph: number; // 18.8
+        gust_kph: number; // 30.2
+      }[];
+    }[];
+  };
+};

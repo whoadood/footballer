@@ -357,3 +357,41 @@ export type TeamDetails = {
   StadiumDetails: StadiumDetails;
 };
 export type ScheduleType = Record<string, Game[]>;
+export type Weather = {
+  time_epoch: number; // 1668751200
+  time: string; // "2022-11-18 00:00"
+  temp_c: number; // -3.1
+  temp_f: number; // 26.4
+  is_day: number; // 0
+  condition: {
+    text: string; // "Light snow showers"
+    icon: string; // "//cdn.weatherapi.com/weather/64x64/night/368.png"
+    code: number; // 1255
+  };
+  wind_mph: number; // 15.9
+  wind_kph: number; // 25.6
+  wind_degree: number; // 271
+  wind_dir: string; // "W"
+  pressure_mb: number; // 1021.0
+  pressure_in: number; // 30.15
+  precip_mm: number; // 0.0
+  precip_in: number; // 0.0
+  humidity: number; // 74
+  cloud: number; // 89
+  feelslike_c: number; // -10.0
+  feelslike_f: number; // 14.0
+  windchill_c: number; // -10.0
+  windchill_f: number; // 14.0
+  heatindex_c: number; // -3.1
+  heatindex_f: number; // 26.4
+  dewpoint_c: number; // -7.0
+  dewpoint_f: number; // 19.4
+  will_it_rain: number; // 0
+  chance_of_rain: number; // 0
+  will_it_snow: number; // 0
+  chance_of_snow: number; // 0
+  vis_km: number; // 10.0
+  vis_miles: number; // 6.0
+  gust_mph: number; // 18.8
+  gust_kph: number; // 30.2
+};

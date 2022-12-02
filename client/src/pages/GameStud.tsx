@@ -4,10 +4,11 @@ import General from "../components/GeneralTable";
 import Offense from "../components/OffenseTable";
 import Stat from "../components/Stat";
 import StatsTable from "../components/StatsTable";
-import { GameDetails, TeamDetails } from "../types";
+import { GameDetails, TeamDetails, Weather } from "../types";
 
 export default function GameStud() {
   const [data, setData] = useState<(GameDetails & TeamDetails)[] | null>(null);
+  const [weather, setWeather] = useState<Weather | null>(null);
   const { gameId, week } = useParams();
 
   useEffect(() => {
@@ -23,7 +24,8 @@ export default function GameStud() {
         });
         const d = await res.json();
         console.log("game data: ", d);
-        setData(d);
+        setData(d.formatDetails);
+        setWeather(d.weather);
       } catch (err) {
         console.log("ERROR: ", err);
       }
@@ -43,44 +45,81 @@ export default function GameStud() {
 		PointSpread: 4.8
 		WindSPeed: 15 
 	*/}
-        {data && (
-          <div className="bg-slate-900 p-4 rounded">
-            <div className="text-3xl font-bold pb-2">{data[0].Stadium}</div>
-            <div className="flex flex-col gap-4">
-              {data[0].Date && (
-                <div className="flex items-center gap-4">
-                  <span>{data[0].DayOfWeek}</span>
-                  <span>{data[0].Date.split("T")[0]}</span>{" "}
-                  <span>{data[0].Date.split("T")[1]}</span>
-                </div>
-              )}
-              <div className="flex items-center gap-2">
-                {data[0].Humidity && (
+        {data && weather && (
+          <div className="bg-slate-900 p-4 rounded flex gap-2">
+            <div className="mr-6 flex items-center">
+              <img
+                className="h-24 w-24 mr-4"
+                src={weather.condition.icon}
+                alt="weather icon"
+              />
+              <div>
+                <p className="text-2xl mb-4 text-center font-bold">
+                  {weather.condition.text}
+                </p>
+                <div className="flex gap-2">
                   <Stat
-                    options={{ title: "Humidity", stat: data[0].Humidity }}
+                    options={{ title: "Temp", stat: `${weather.temp_f} deg` }}
                   />
+                  <Stat
+                    options={{ title: "Wind Dir", stat: weather.wind_dir }}
+                  />
+                  <Stat
+                    options={{
+                      title: "Rain Chance",
+                      stat: `${weather.chance_of_rain}%`,
+                    }}
+                  />
+                  <Stat
+                    options={{
+                      title: "Snow Change",
+                      stat: `${weather.chance_of_snow}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col justify-center">
+              <div className="text-4xl font-bold pb-2">{data[0].Stadium}</div>
+              <div className="flex items-center flex-col gap-4">
+                {data[0].Date && (
+                  <div className="flex items-center gap-4">
+                    <span>{data[0].DayOfWeek}</span>
+                    <span>{data[0].Date.split("T")[0]}</span>{" "}
+                    <span>{data[0].Date.split("T")[1]}</span>
+                  </div>
                 )}
-                <Stat
-                  options={{ title: "Surface", stat: data[0].PlayingSurface }}
-                />
-                <Stat
-                  options={{
-                    title: "Wind Speed",
-                    stat: `${data[0].WindSpeed ? data[0].WindSpeed : 0}mph`,
-                  }}
-                />
-                <Stat
-                  options={{
-                    title: "Stadium",
-                    stat:
-                      data[0].StadiumID === data[0].StadiumDetails.StadiumID
-                        ? data[0].StadiumDetails.Type.replace(/([A-Z])/g, " $1")
-                        : data[1].StadiumDetails.Type.replace(
-                            /([A-Z])/g,
-                            " $1"
-                          ),
-                  }}
-                />
+                <div className="flex items-center gap-2">
+                  {data[0].Humidity && (
+                    <Stat
+                      options={{ title: "Humidity", stat: data[0].Humidity }}
+                    />
+                  )}
+                  <Stat
+                    options={{ title: "Surface", stat: data[0].PlayingSurface }}
+                  />
+                  <Stat
+                    options={{
+                      title: "Wind Speed",
+                      stat: `${data[0].WindSpeed ? data[0].WindSpeed : 0} mph`,
+                    }}
+                  />
+                  <Stat
+                    options={{
+                      title: "Stadium",
+                      stat:
+                        data[0].StadiumID === data[0].StadiumDetails.StadiumID
+                          ? data[0].StadiumDetails.Type.replace(
+                              /([A-Z])/g,
+                              " $1"
+                            )
+                          : data[1].StadiumDetails.Type.replace(
+                              /([A-Z])/g,
+                              " $1"
+                            ),
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>

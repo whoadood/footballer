@@ -1,5 +1,12 @@
 import fetch from "cross-fetch";
-import { Game, GameDetails, Standing, TeamBase, TeamDetails } from "./types";
+import {
+  Game,
+  GameDetails,
+  Standing,
+  TeamBase,
+  TeamDetails,
+  Weather,
+} from "./types";
 
 const fletcher = async <T>(url: string): Promise<T> => {
   const res = await fetch(url, {
@@ -50,4 +57,14 @@ export const getTeamsDetails = async (): Promise<TeamDetails[]> => {
     "https://api.sportsdata.io/v3/nfl/scores/json/AllTeams"
   );
   return res as TeamDetails[];
+};
+export const getWeather = async (
+  location: { lat: number; long: number },
+  yyyy_mm_dd: string
+): Promise<Weather> => {
+  const res = await fetch(
+    `http://api.weatherapi.com/v1/history.json?key=${process.env.WEATHER_API_KEY}&q=${location.lat},${location.long}&dt=${yyyy_mm_dd}`
+  );
+  const d = await res.json();
+  return d as Weather;
 };

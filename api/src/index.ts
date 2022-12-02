@@ -8,6 +8,7 @@ import {
   getLeagueStandings,
   getTeamPlayers,
   getTeamsDetails,
+  getWeather,
 } from "./utils/services";
 import { filterByPosition } from "./utils/data-manip";
 
@@ -62,8 +63,22 @@ app.post("/game", async (req: Request, res: Response) => {
     );
     return { ...team, ...teamDetails[0] };
   });
-
-  res.json(formatDetails);
+  const weather = await getWeather(
+    formatDetails[0].HomeOrAway === "HOME"
+      ? {
+          lat: formatDetails[0].StadiumDetails.GeoLat,
+          long: formatDetails[0].StadiumDetails.GeoLong,
+        }
+      : {
+          lat: formatDetails[1].StadiumDetails.GeoLat,
+          long: formatDetails[1].StadiumDetails.GeoLong,
+        },
+    formatDetails[0].Date.split("T")[0]
+  );
+  const formatWeather = weather.forecast.forecastday[0].hour.filter(
+    (hour) => hour.time >= formatDetails[0].Date.split("T").join(" ")
+  );
+  res.json({ formatDetails, weather: formatWeather[0] });
 });
 
 app.post("/team", async (req: Request, res: Response) => {

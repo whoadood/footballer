@@ -81,7 +81,17 @@ app.post("/game", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const teamDetails = teams.filter((t) => t.GlobalTeamID === team.GlobalTeamID);
         return Object.assign(Object.assign({}, team), teamDetails[0]);
     });
-    res.json(formatDetails);
+    const weather = yield (0, services_1.getWeather)(formatDetails[0].HomeOrAway === "HOME"
+        ? {
+            lat: formatDetails[0].StadiumDetails.GeoLat,
+            long: formatDetails[0].StadiumDetails.GeoLong,
+        }
+        : {
+            lat: formatDetails[1].StadiumDetails.GeoLat,
+            long: formatDetails[1].StadiumDetails.GeoLong,
+        }, formatDetails[0].Date.split("T")[0]);
+    const formatWeather = weather.forecast.forecastday[0].hour.filter((hour) => hour.time >= formatDetails[0].Date.split("T").join(" "));
+    res.json({ formatDetails, weather: formatWeather[0] });
 }));
 app.post("/team", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { team } = req.body;
