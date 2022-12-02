@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./pages/Root";
 import Home from "./pages/Home";
-import "./index.css";
 import GameStud from "./pages/GameStud";
+import Team from "./pages/Team";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "games/:gameId/:week",
         element: <GameStud />,
+      },
+      {
+        path: "teams/:teamslug",
+        element: <Team />,
       },
     ],
   },

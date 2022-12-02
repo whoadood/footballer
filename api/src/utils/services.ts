@@ -2,6 +2,7 @@ import fetch from "cross-fetch";
 import {
   Game,
   GameDetails,
+  PlayerDetails,
   Standing,
   TeamBase,
   TeamDetails,
@@ -35,7 +36,7 @@ export const getTeamPlayers = async (team: string) => {
   const res = await fletcher(
     `https://api.sportsdata.io/v3/nfl/scores/json/Players/${team}`
   );
-  return res;
+  return res as PlayerDetails[];
 };
 
 export const getDepthChart = async (): Promise<TeamBase[]> => {

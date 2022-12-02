@@ -95,7 +95,6 @@ app.post("/game", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 }));
 app.post("/team", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { team } = req.body;
-    console.log("server team", team);
     const data = yield (0, services_1.getTeamPlayers)(team);
     res.json(data);
 }));

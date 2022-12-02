@@ -46,7 +46,7 @@ export default function GameStud() {
 		WindSPeed: 15 
 	*/}
         {data && weather && (
-          <div className="bg-slate-900 p-4 rounded flex gap-2">
+          <div className="bg-slate-900 p-4 rounded flex flex-col-reverse md:flex-row gap-4 md:gap-2">
             <div className="mr-6 flex items-center">
               <img
                 className="h-24 w-24 mr-4"
@@ -80,7 +80,9 @@ export default function GameStud() {
               </div>
             </div>
             <div className="flex flex-col justify-center">
-              <div className="text-4xl font-bold pb-2">{data[0].Stadium}</div>
+              <h2 className="text-4xl font-bold pb-2 text-center md:text-left">
+                {data[0].Stadium}
+              </h2>
               <div className="flex items-center flex-col gap-4">
                 {data[0].Date && (
                   <div className="flex items-center gap-4">

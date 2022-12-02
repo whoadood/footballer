@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Standing, TeamDetails } from "../types";
 
 export default function StandingCard({
@@ -7,7 +8,10 @@ export default function StandingCard({
   team: Standing & TeamDetails;
 }) {
   return (
-    <div className="bg-slate-900 flex flex-col justify-between rounded first:col-span-3 md:first:col-span-1">
+    <Link
+      to={`teams/${team.Key}`}
+      className="bg-slate-900 flex flex-col justify-between rounded first:col-span-3 md:first:col-span-1"
+    >
       <div className="flex justify-between items-center p-2">
         <div className="flex gap-2 items-center">
           <img
@@ -39,6 +43,6 @@ export default function StandingCard({
           tds: <span className="text-white">{team.Touchdowns}</span>
         </p>
       </div>
-    </div>
+    </Link>
   );
 }

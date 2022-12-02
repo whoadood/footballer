@@ -83,7 +83,6 @@ app.post("/game", async (req: Request, res: Response) => {
 
 app.post("/team", async (req: Request, res: Response) => {
   const { team } = req.body;
-  console.log("server team", team);
   const data = await getTeamPlayers(team);
   res.json(data);
 });

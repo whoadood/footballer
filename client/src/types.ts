@@ -395,3 +395,81 @@ export type Weather = {
   gust_mph: number; // 18.8
   gust_kph: number; // 30.2
 };
+export type PlayerDetails = {
+  PlayerID: 21222;
+  Team: string; // "WAS"
+  Number: unknown | null;
+  FirstName: string; // "Keaton"
+  LastName: string; // "Sutherland"
+  Position: string; // "OL"
+  Status: string; // "Practice Squad"
+  Height: string; // "6'5\""
+  Weight: number; // 315
+  BirthDate: string; // "1997-02-12T00:00:00"
+  College: string; // "Texas A&M"
+  Experience: number;
+  FantasyPosition: string; // "OL"
+  Active: boolean;
+  PositionCategory: string; // "OFF"
+  Name: string; // "Keaton Sutherland"
+  Age: number;
+  ExperienceString: string; // "4th Season"
+  BirthDateString: string; // "February 12, 1997"
+  PhotoUrl: string; // "https://s3-us-west-2.amazonaws.com/static.fantasydata.com/headshots/nfl/low-res/21222.png"
+  ByeWeek: number;
+  UpcomingGameOpponent: string; // "NYG"
+  UpcomingGameWeek: number;
+  ShortName: string; // "K.Sutherland"
+  AverageDraftPosition: unknown | null;
+  DepthPositionCategory: string; // "Scrambled"
+  DepthPosition: string; // "Scrambled"
+  DepthOrder: unknown | null;
+  DepthDisplayOrder: unknown | null;
+  CurrentTeam: string; // "WAS"
+  CollegeDraftTeam: string; // "CIN"
+  CollegeDraftYear: number;
+  CollegeDraftRound: unknown | null;
+  CollegeDraftPick: unknown | null;
+  IsUndraftedFreeAgent: true;
+  HeightFeet: number;
+  HeightInches: number;
+  UpcomingOpponentRank: number;
+  UpcomingOpponentPositionRank: unknown | null;
+  CurrentStatus: string; // "Scrambled"
+  UpcomingSalary: unknown | null;
+  FantasyAlarmPlayerID: number; // 307028
+  SportRadarPlayerID: string; // "be44e57a-7623-4b1c-a6fd-7a30795bb8ac"
+  RotoworldPlayerID: unknown | null;
+  RotoWirePlayerID: number; // 13720
+  StatsPlayerID: unknown | null;
+  SportsDirectPlayerID: number; // 90493
+  XmlTeamPlayerID: unknown | null;
+  FanDuelPlayerID: unknown | null;
+  DraftKingsPlayerID: null;
+  YahooPlayerID: number; // 32470
+  InjuryStatus: string; // "Scrambled"
+  InjuryBodyPart: string; // "Scrambled"
+  InjuryStartDate: unknown | null;
+  InjuryNotes: string; // "Scrambled"
+  FanDuelName: unknown | null;
+  DraftKingsName: unknown | null;
+  YahooName: unknown | null;
+  FantasyPositionDepthOrder: unknown | null;
+  InjuryPractice: string; // "Scrambled"
+  InjuryPracticeDescription: string; // "Scrambled"
+  DeclaredInactive: boolean;
+  UpcomingFanDuelSalary: unknown | null;
+  UpcomingDraftKingsSalary: unknown | null;
+  UpcomingYahooSalary: unknown | null;
+  TeamID: number; // 35
+  GlobalTeamID: number; // 35
+  FantasyDraftPlayerID: unknown | null;
+  FantasyDraftName: unknown | null;
+  UsaTodayPlayerID: number; // 8254379
+  UsaTodayHeadshotUrl: string; // "http://cdn.usatsimg.com/api/download/?imageID=16578633"
+  UsaTodayHeadshotNoBackgroundUrl: string; // "http://cdn.usatsimg.com/api/download/?imageID=16578634"
+  UsaTodayHeadshotUpdated: string; // "2021-08-17T22:37:35"
+  UsaTodayHeadshotNoBackgroundUpdated: string; // "2021-08-17T22:37:43"
+  PlayerSeason: unknown | null;
+  LatestNews: any[];
+};
