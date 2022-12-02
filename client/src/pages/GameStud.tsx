@@ -55,14 +55,18 @@ export default function GameStud() {
                 </div>
               )}
               <div className="flex items-center gap-2">
-                <Stat options={{ title: "Humidity", stat: data[0].Humidity }} />
+                {data[0].Humidity && (
+                  <Stat
+                    options={{ title: "Humidity", stat: data[0].Humidity }}
+                  />
+                )}
                 <Stat
                   options={{ title: "Surface", stat: data[0].PlayingSurface }}
                 />
                 <Stat
                   options={{
                     title: "Wind Speed",
-                    stat: `${data[0].WindSpeed}mph`,
+                    stat: `${data[0].WindSpeed ? data[0].WindSpeed : 0}mph`,
                   }}
                 />
                 <Stat

@@ -26,8 +26,8 @@ function Home() {
 
   return (
     <>
-      {data?.standings && <Standings standings={data.standings} />}
       {data?.schedule && <Schedule schedule={data.schedule} />}
+      {data?.standings && <Standings standings={data.standings} />}
     </>
   );
 }
