@@ -9,6 +9,7 @@ import {
   getTeamPlayers,
   getTeamsDetails,
   getWeather,
+  getPlayerStats,
 } from "./utils/services";
 import { filterByPosition } from "./utils/data-manip";
 import { Game, PlayerDetails } from "./utils/types";
@@ -87,6 +88,7 @@ app.post("/team", async (req: Request, res: Response) => {
   const teams = await getTeamsDetails();
   const teamDetails = teams.filter((t) => t.Key === team);
   const players = await getTeamPlayers(team);
+
   const formatPlayers = players.reduce(
     (acc: Record<string, PlayerDetails[]>, cur) => {
       if (acc[cur.Position]) {
@@ -99,6 +101,12 @@ app.post("/team", async (req: Request, res: Response) => {
     {}
   );
   res.json({ players: formatPlayers, team: teamDetails[0] });
+});
+
+app.post("/team/stats", async (req: Request, res: Response) => {
+  const { week, team } = req.body;
+  const playerStats = await getPlayerStats(week, team);
+  res.json(playerStats);
 });
 
 app.listen(PORT, () =>

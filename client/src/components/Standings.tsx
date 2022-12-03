@@ -13,7 +13,7 @@ export default function Standings({
     if (d === "NFC") setDivision("NFC");
   };
   return (
-    <div className="my-4">
+    <div className="mb-4">
       <div className="">
         <div className="p-2">
           <h4 className="text-xl flex font-bold">

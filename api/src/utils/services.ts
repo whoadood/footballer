@@ -3,6 +3,7 @@ import {
   Game,
   GameDetails,
   PlayerDetails,
+  PlayerStats,
   Standing,
   TeamBase,
   TeamDetails,
@@ -68,4 +69,13 @@ export const getWeather = async (
   );
   const d = await res.json();
   return d as Weather;
+};
+export const getPlayerStats = async (
+  week: string,
+  team: string
+): Promise<PlayerStats[]> => {
+  const res = await fletcher(
+    `https://api.sportsdata.io/v3/nfl/stats/json/PlayerGameStatsByTeam/2022/${week}/${team}`
+  );
+  return res as PlayerStats[];
 };

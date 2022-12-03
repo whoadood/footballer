@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Game, GameDetails, ScheduleType } from "../types";
 import { Link } from "react-router-dom";
+import WeekSelect from "./WeekSelect";
 
 // for comparison to game date
 const today = new Date();
@@ -15,26 +16,12 @@ export default function Schedule({ schedule }: { schedule: ScheduleType }) {
   return (
     <div className="px-2">
       <h3>Schedule</h3>
-      <div className={`py-2 grid grid-cols-6 grid-rows-2 md:grid-cols-9 gap-2`}>
-        {weeks.map((k, i) => {
-          console.log(k, schedule[k]);
-          return (
-            <div
-              onClick={() => setActive(k)}
-              className={`py-2 px-2 hover:cursor-pointer text-center rounded ${
-                active === k
-                  ? "bg-slate-700 text-white"
-                  : "bg-slate-900/30 text-gray-400 hover:text-white border-2 border-slate-800 hover:border-slate-200"
-              }`}
-              key={k}
-            >
-              <h4>Week {i + 1}</h4>
-            </div>
-          );
-        })}
-      </div>
+      <WeekSelect
+        weeks={weeks}
+        state={{ variable: active, setter: setActive }}
+      />
       {active && (
-        <ul className="my-4 grid gap-2 grid-rows-5 md:grid-rows-3 grid-cols-4 lg:grid-cols-7 md:grid-cols-6">
+        <ul className="grid gap-2 grid-rows-5 md:grid-rows-3 grid-cols-4 lg:grid-cols-7 md:grid-cols-6">
           {schedule[active].map((game, index) => {
             return (
               <li

@@ -13,7 +13,7 @@ export default function StandingCard({
       className="bg-slate-900 flex flex-col justify-between rounded first:col-span-3 md:first:col-span-1"
     >
       <div className="flex justify-between items-center p-2">
-        <div className="flex gap-2 items-center">
+        <div className="flex flex-col sm:items-center sm:flex-row gap-2 ">
           <img
             className="h-8 w-8"
             src={team.WikipediaLogoUrl}

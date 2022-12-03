@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
-import { PlayerDetails, TeamDetails } from "../types";
+import { PlayerDetails, PlayerStats, TeamDetails } from "../types";
 import { useParams } from "react-router-dom";
 import Stat from "../components/Stat";
+import WeekSelect from "../components/WeekSelect";
 
 function Home() {
+  const [week, setWeek] = useState<string>("week1");
   const [active, setActive] = useState<PlayerDetails[] | null>(null);
   const [team, setTeam] = useState<TeamDetails | null>(null);
   const [data, setData] = useState<Record<string, PlayerDetails[]> | null>(
     null
   );
+  const [activePlayer, setActivePlayer] = useState<PlayerStats | null>(null);
+  const [stats, setStats] = useState<PlayerStats[] | null>(null);
   const { teamslug } = useParams();
 
   console.log("active team", team);
@@ -24,7 +28,7 @@ function Home() {
           body: JSON.stringify({ team: teamslug }),
         });
         const d = await res.json();
-        console.log("teamdata ", d);
+        // console.log("teamdata ", d);
         setData(d.players);
         setActive(d.players["QB"]);
         setTeam(d.team);
@@ -34,6 +38,26 @@ function Home() {
     };
     getData();
   }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await fetch(`http://localhost:5000/team/stats`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          week: week.replace("week", ""),
+          team: teamslug,
+        }),
+      });
+      const d: PlayerStats[] = await res.json();
+      console.log("player stats", d);
+      setStats(d);
+      setActivePlayer(d.find((p) => p.Position === "QB") as PlayerStats);
+    };
+    getData();
+  }, [week]);
 
   return (
     <div className="px-4">
@@ -86,6 +110,30 @@ function Home() {
           </div>
         </div>
       )}
+      <WeekSelect
+        weeks={[
+          "week1",
+          "week2",
+          "week3",
+          "week4",
+          "week5",
+          "week6",
+          "week7",
+          "week8",
+          "week9",
+          "week10",
+          "week11",
+          "week12",
+          "week13",
+          "week14",
+          "week15",
+          "week16",
+          "week17",
+          "week18",
+        ]}
+        state={{ variable: week, setter: setWeek }}
+      />
+      {activePlayer && <div>{activePlayer.Name}</div>}
       <div className="flex flex-wrap gap-2">
         {data &&
           active &&
@@ -105,9 +153,24 @@ function Home() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 my-4">
         {active &&
+          stats &&
           active.map((player) => (
             <div
-              className="flex gap-2 px-2 pb-2 bg-slate-900"
+              onClick={() => {
+                const playerSet = stats.find(
+                  (p) => p.PlayerID === player.PlayerID
+                );
+                setActivePlayer((cur) => (playerSet ? playerSet : cur));
+              }}
+              className={`flex gap-2 px-2 pb-2 bg-slate-900 ${
+                stats?.find((p) => p.PlayerID === player.PlayerID)
+                  ? `${
+                      activePlayer?.PlayerID === player.PlayerID
+                        ? "border-2 border-white hover:cursor-pointer"
+                        : "hover:cursor-pointer"
+                    }`
+                  : "opacity-50"
+              }`}
               key={player.PlayerID}
             >
               <img src={player.PhotoUrl} alt="player headshot" />
