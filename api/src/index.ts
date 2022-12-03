@@ -11,6 +11,7 @@ import {
   getWeather,
 } from "./utils/services";
 import { filterByPosition } from "./utils/data-manip";
+import { Game, PlayerDetails } from "./utils/types";
 
 config();
 
@@ -32,7 +33,7 @@ app.get("/", async (_req: Request, res: Response) => {
     );
     return { ...team, ...teamDetails[0] };
   });
-  const formatSchedule = schedule.reduce((acc: any, cur) => {
+  const formatSchedule = schedule.reduce((acc: Record<string, Game[]>, cur) => {
     if (acc[`week${cur.Week}`]) {
       acc[`week${cur.Week}`].push(cur);
     } else {
@@ -84,7 +85,18 @@ app.post("/game", async (req: Request, res: Response) => {
 app.post("/team", async (req: Request, res: Response) => {
   const { team } = req.body;
   const data = await getTeamPlayers(team);
-  res.json(data);
+  const formatPlayers = data.reduce(
+    (acc: Record<string, PlayerDetails[]>, cur) => {
+      if (acc[cur.Position]) {
+        acc[cur.Position].push(cur);
+      } else {
+        acc[cur.Position] = [cur];
+      }
+      return acc;
+    },
+    {}
+  );
+  res.json(formatPlayers);
 });
 
 app.listen(PORT, () =>
