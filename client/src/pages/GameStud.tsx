@@ -4,6 +4,7 @@ import General from "../components/GeneralTable";
 import Offense from "../components/OffenseTable";
 import Stat from "../components/Stat";
 import StatsTable from "../components/StatsTable";
+import TeamCard from "../components/TeamCard";
 import { GameDetails, TeamDetails, Weather } from "../types";
 
 export default function GameStud() {

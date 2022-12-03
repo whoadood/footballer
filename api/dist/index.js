@@ -95,8 +95,10 @@ app.post("/game", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 }));
 app.post("/team", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { team } = req.body;
-    const data = yield (0, services_1.getTeamPlayers)(team);
-    const formatPlayers = data.reduce((acc, cur) => {
+    const teams = yield (0, services_1.getTeamsDetails)();
+    const teamDetails = teams.filter((t) => t.Key === team);
+    const players = yield (0, services_1.getTeamPlayers)(team);
+    const formatPlayers = players.reduce((acc, cur) => {
         if (acc[cur.Position]) {
             acc[cur.Position].push(cur);
         }
@@ -105,6 +107,6 @@ app.post("/team", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         return acc;
     }, {});
-    res.json(formatPlayers);
+    res.json({ players: formatPlayers, team: teamDetails[0] });
 }));
 app.listen(PORT, () => console.log(` 📡 Backend server: ` + ` Running in ${ENV} mode on port ${PORT}`));

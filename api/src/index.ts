@@ -84,8 +84,10 @@ app.post("/game", async (req: Request, res: Response) => {
 
 app.post("/team", async (req: Request, res: Response) => {
   const { team } = req.body;
-  const data = await getTeamPlayers(team);
-  const formatPlayers = data.reduce(
+  const teams = await getTeamsDetails();
+  const teamDetails = teams.filter((t) => t.Key === team);
+  const players = await getTeamPlayers(team);
+  const formatPlayers = players.reduce(
     (acc: Record<string, PlayerDetails[]>, cur) => {
       if (acc[cur.Position]) {
         acc[cur.Position].push(cur);
@@ -96,7 +98,7 @@ app.post("/team", async (req: Request, res: Response) => {
     },
     {}
   );
-  res.json(formatPlayers);
+  res.json({ players: formatPlayers, team: teamDetails[0] });
 });
 
 app.listen(PORT, () =>
