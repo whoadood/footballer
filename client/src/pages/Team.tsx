@@ -64,7 +64,13 @@ function Home() {
       const d: PlayerStats[] = await res.json();
       console.log("player stats", d);
       setStats(d);
-      setActivePlayer(d.find((p) => p.Position === "QB") as PlayerStats);
+      setActivePlayer(
+        d.find((p) =>
+          activePlayer
+            ? p.PlayerID === activePlayer.PlayerID
+            : p.Position === "QB"
+        ) as PlayerStats
+      );
     };
     getData();
   }, [week]);
@@ -151,7 +157,12 @@ function Home() {
           </h2>
           <div className="flex justify-around gap-4">
             <PGenStats player={activePlayer as PlayerStats} />
+
             {statCards[activePlayer.PositionCategory]}
+
+            {activePlayer.PositionCategory !== "ST" && (
+              <PSTStats player={activePlayer as PlayerStats} />
+            )}
           </div>
         </div>
       )}
