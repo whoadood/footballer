@@ -486,7 +486,7 @@ export type PlayerStats = {
   Number: number; // 2
   Name: string; // "Dyami Brown"
   Position: string; //"WR"
-  PositionCategory: string; // 	"OFF"
+  PositionCategory: "OFF" | "DEF" | "ST"; // 	"OFF"
   Activated: number; //	1
   Played: number; //	1
   Started: number; //	0
