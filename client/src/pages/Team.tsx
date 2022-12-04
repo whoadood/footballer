@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { PlayerDetails, PlayerStats, TeamDetails } from "../types";
+import { PlayerDetails, PlayerStats, TeamDetails } from "../utils/types";
 import { useParams } from "react-router-dom";
 import Stat from "../components/Stat";
 import WeekSelect from "../components/WeekSelect";
@@ -76,10 +76,10 @@ function Home() {
   }, [week]);
 
   return (
-    <div className="px-4">
+    <div className="px-4 flex flex-col justify-center items-center">
+      {/* ********** Card Header *********** */}
       {team && (
-        <div className="bg-slate-700 flex flex-col md:flex-row rounded p-2 gap-4 mb-4">
-          {/* ********** Card Header *********** */}
+        <div className={`flex flex-col md:flex-row rounded p-2 gap-4 mb-4`}>
           <div className="flex">
             <img
               className="h-36 w-36"
@@ -148,6 +148,7 @@ function Home() {
           "week18",
         ]}
         state={{ variable: week, setter: setWeek }}
+        showTeams={true}
       />
       {/* ************ player stats ************ */}
       {activePlayer && (
@@ -165,15 +166,15 @@ function Home() {
           </div>
         </div>
       )}
-      {/* ************ player select ************ */}
+      {/* ************ position select ************ */}
       <div className="flex flex-wrap gap-2">
         {data &&
           active &&
           Object.keys(data).map((position) => (
             <div
-              className={`hover:cursor-pointer bg-slate-900 rounded p-2 font-bold w-10 text-center ${
+              className={`hover:cursor-pointer bg-slate-900 rounded py-2 w-10 sm:w-12 mx-auto font-bold text-center ${
                 active[0].Position === position
-                  ? "text-white bg-slate-700"
+                  ? "text-white bg-slate-700 border-2 border-white"
                   : "text-gray-400 hover:text-white hover:bg-slate-700"
               }`}
               onClick={() => setActive(data[position])}
@@ -183,6 +184,7 @@ function Home() {
             </div>
           ))}
       </div>
+      {/* ************ player select ************ */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 my-4">
         {active &&
           stats &&
@@ -198,15 +200,17 @@ function Home() {
                 stats?.find((p) => p.PlayerID === player.PlayerID)
                   ? `${
                       activePlayer?.PlayerID === player.PlayerID
-                        ? "border-2 border-white hover:cursor-pointer"
-                        : "hover:cursor-pointer"
+                        ? "border-2 border-white"
+                        : "hover:cursor-pointer hover:cursor-pointer hover:bg-slate-700"
                     }`
                   : "opacity-50"
               }`}
               key={player.PlayerID}
             >
-              <img src={player.PhotoUrl} alt="player headshot" />
-              <div className="pt-2">
+              <div className="h-full">
+                <img src={player.PhotoUrl} alt="player headshot" />
+              </div>
+              <div>
                 <p className="font-bold text-xl">{player.Name}</p>
                 <p>{player.Age}</p>
                 <p>

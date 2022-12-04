@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ScheduleType, Standing, TeamDetails } from "../types";
+import { ScheduleType, Standing, TeamDetails } from "../utils/types";
 import Standings from "../components/Standings";
 import Schedule from "../components/Schedule";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { PlayerStats } from "../types";
+import { PlayerStats } from "../utils/types";
 import StatDisplay from "./StatDisplay";
 
 export default function PSTStats({ player }: { player: PlayerStats }) {

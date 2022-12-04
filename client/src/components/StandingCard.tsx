@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Standing, TeamDetails } from "../types";
+import { Standing, TeamDetails } from "../utils/types";
 
 export default function StandingCard({
   team,
@@ -10,7 +10,7 @@ export default function StandingCard({
   return (
     <Link
       to={`teams/${team.Key}`}
-      className="bg-slate-900 flex flex-col justify-between rounded first:col-span-3 md:first:col-span-1"
+      className="bg-slate-900 flex flex-col border-slate-900 border-2 hover:border-white justify-between rounded first:col-span-3 md:first:col-span-1"
     >
       <div className="flex justify-between items-center p-2">
         <div className="flex flex-col sm:items-center sm:flex-row gap-2 ">
@@ -26,7 +26,7 @@ export default function StandingCard({
         </div>
         <p className="text-gray-400 text-sm hidden sm:block">{team.Division}</p>
       </div>
-      <div className="bg-slate-800 border-2 border-slate-900 p-2">
+      <div className="bg-slate-800 p-2">
         <p className="text-gray-400">
           wins: <span className="text-white">{team.Wins}</span>
         </p>

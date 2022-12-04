@@ -5,7 +5,7 @@ import Root from "./pages/Root";
 import Home from "./pages/Home";
 import GameStud from "./pages/GameStud";
 import Team from "./pages/Team";
-import "./index.css";
+import "./utils/index.css";
 
 const router = createBrowserRouter([
   {

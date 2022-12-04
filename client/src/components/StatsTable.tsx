@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GameDetails, TeamDetails } from "../types";
+import { GameDetails, TeamDetails } from "../utils/types";
 import Defense from "./DefenseTable";
 import General from "./GeneralTable";
 import Offense from "./OffenseTable";

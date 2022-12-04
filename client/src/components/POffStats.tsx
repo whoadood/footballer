@@ -1,6 +1,5 @@
 import React from "react";
-import { PlayerStats } from "../types";
-import Stat from "../components/Stat";
+import { PlayerStats } from "../utils/types";
 import StatDisplay from "./StatDisplay";
 
 export default function POffStats({ player }: { player: PlayerStats }) {
@@ -37,8 +36,10 @@ export default function POffStats({ player }: { player: PlayerStats }) {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <StatDisplay props={{ title: "Passing", stats: offStats.passing }} />
-      {player.Position === "WR" ? (
+      {player.Position === "QB" && (
+        <StatDisplay props={{ title: "Passing", stats: offStats.passing }} />
+      )}
+      {player.Position === "WR" || player.Position === "TE" ? (
         <StatDisplay
           props={{ title: "Receiving", stats: offStats.receiving }}
         />

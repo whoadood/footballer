@@ -5,7 +5,7 @@ import Offense from "../components/OffenseTable";
 import Stat from "../components/Stat";
 import StatsTable from "../components/StatsTable";
 import TeamCard from "../components/TeamCard";
-import { GameDetails, TeamDetails, Weather } from "../types";
+import { GameDetails, TeamDetails, Weather } from "../utils/types";
 
 export default function GameStud() {
   const [data, setData] = useState<(GameDetails & TeamDetails)[] | null>(null);

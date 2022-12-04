@@ -1,5 +1,5 @@
 import React from "react";
-import { GameDetails, TeamDetails } from "../types";
+import { GameDetails, TeamDetails } from "../utils/types";
 import TableItem from "./TableItem";
 
 /* 

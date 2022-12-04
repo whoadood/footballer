@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Standing, TeamDetails } from "../types";
+import { Standing, TeamDetails } from "../utils/types";
 import StandingCard from "./StandingCard";
 
 export default function Standings({
