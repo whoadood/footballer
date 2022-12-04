@@ -23,12 +23,28 @@ export default function POffStats({ player }: { player: PlayerStats }) {
       { title: "TDs", stat: player.RushingTouchdowns },
       { title: "Long", stat: player.RushingLong },
     ],
+    receiving: [
+      { title: "Targets", stat: player.ReceivingTargets },
+      { title: "Receptions", stat: player.Receptions },
+      { title: "Yards", stat: player.ReceivingYards },
+      { title: "Reception %", stat: player.ReceptionPercentage },
+      { title: "Yards/Receptions", stat: player.ReceivingYardsPerReception },
+      { title: "Yards/Target", stat: player.ReceivingYardsPerTarget },
+      { title: "TDs", stat: player.ReceivingTouchdowns },
+      { title: "Long", stat: player.ReceivingLong },
+    ],
   };
 
   return (
-    <div className="max-w-md flex flex-col gap-4">
+    <div className="flex flex-col items-center gap-4">
       <StatDisplay props={{ title: "Passing", stats: offStats.passing }} />
-      <StatDisplay props={{ title: "Rushing", stats: offStats.rushing }} />
+      {player.Position === "WR" ? (
+        <StatDisplay
+          props={{ title: "Receiving", stats: offStats.receiving }}
+        />
+      ) : (
+        <StatDisplay props={{ title: "Rushing", stats: offStats.rushing }} />
+      )}
     </div>
   );
 }
@@ -53,3 +69,13 @@ export default function POffStats({ player }: { player: PlayerStats }) {
 // RushingYardsPerAttempt: number; //	0
 // RushingTouchdowns: number; //	0
 // RushingLong: number; //	0
+
+// // RECEIVING
+// ReceivingTargets: number; //	0
+// Receptions: number; //	0
+// ReceivingYards: number; //	0
+// ReceivingYardsPerReception: number; //	0
+// ReceivingTouchdowns: number; //	0
+// ReceivingLong: number; //	0
+// ReceivingYardsPerTarget: number; //	0
+// ReceptionPercentage: number; //	0
