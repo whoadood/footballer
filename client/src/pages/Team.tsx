@@ -151,15 +151,14 @@ function Home() {
       />
       {/* ************ player stats ************ */}
       {activePlayer && (
-        <div className="py-2 px-4 rounded mb-4">
+        <div className="py-2 px-4 rounded mb-4 bg-slate-900/50">
           <h2 className="text-2xl text-center font-bold mb-4">
             {activePlayer.Name} #{activePlayer.Number}
           </h2>
-          <div className="flex justify-around gap-4">
+          <div className="flex justify-around flex-col sm:flex-row gap-4">
             <PGenStats player={activePlayer as PlayerStats} />
 
             {statCards[activePlayer.PositionCategory]}
-
             {activePlayer.PositionCategory !== "ST" && (
               <PSTStats player={activePlayer as PlayerStats} />
             )}
