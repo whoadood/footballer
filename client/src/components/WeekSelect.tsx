@@ -1,4 +1,5 @@
 import React from "react";
+import useHomePage from "../hooks/useHomePage";
 
 export default function WeekSelect({
   weeks,
@@ -12,6 +13,7 @@ export default function WeekSelect({
   };
   showTeams: boolean;
 }) {
+  const homeData = useHomePage();
   return (
     <div className={`py-2 grid grid-cols-6 grid-rows-2 md:grid-cols-9 gap-2`}>
       {weeks.map((k: any, i: number) => {
@@ -25,7 +27,7 @@ export default function WeekSelect({
             }`}
             key={k}
           >
-            <h4>Week {i + 1}</h4>
+            <h4>{`Week ${i + 1}`}</h4>
           </div>
         );
       })}

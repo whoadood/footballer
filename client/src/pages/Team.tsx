@@ -7,97 +7,64 @@ import POffStats from "../components/POffStats";
 import PDefStats from "../components/PDefStats";
 import PSTStats from "../components/PSTStats";
 import PGenStats from "../components/PGenStats";
+import useTeamPage from "../hooks/useTeamPage";
+import useTeamStats from "../hooks/useTeamStats";
 
 function Home() {
-  const [week, setWeek] = useState<string>("week1");
-  const [active, setActive] = useState<PlayerDetails[] | null>(null);
-  const [team, setTeam] = useState<TeamDetails | null>(null);
-  const [data, setData] = useState<Record<string, PlayerDetails[]> | null>(
-    null
-  );
-  const [activePlayer, setActivePlayer] = useState<PlayerStats | null>(null);
-  const [stats, setStats] = useState<PlayerStats[] | null>(null);
   const { teamslug } = useParams();
-
-  const statCards = {
-    OFF: <POffStats player={activePlayer as PlayerStats} />,
-    DEF: <PDefStats player={activePlayer as PlayerStats} />,
-    ST: <PSTStats player={activePlayer as PlayerStats} />,
-  };
-
-  console.log("active team", team);
+  const [week, setWeek] = useState<string>("week1");
+  const statsMutation = useTeamStats();
+  const teamMutation = useTeamPage();
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/team", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({ team: teamslug }),
-        });
-        const d = await res.json();
-        // console.log("teamdata ", d);
-        setData(d.players);
-        setActive(d.players["QB"]);
-        setTeam(d.team);
-      } catch (err) {
-        console.log("ERROR: ", err);
-      }
-    };
-    getData();
+    if (teamslug) {
+      teamMutation.teamData.mutate(teamslug);
+    }
   }, []);
 
   useEffect(() => {
-    const getData = async () => {
-      const res = await fetch(`http://localhost:5000/team/stats`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          week: week.replace("week", ""),
-          team: teamslug,
-        }),
-      });
-      const d: PlayerStats[] = await res.json();
-      console.log("player stats", d);
-      setStats(d);
-      setActivePlayer(
-        d.find((p) =>
-          activePlayer
-            ? p.PlayerID === activePlayer.PlayerID
-            : p.Position === "QB"
-        ) as PlayerStats
-      );
-    };
-    getData();
+    if (teamslug) {
+      statsMutation.teamStats.mutate({ team: teamslug, week: week });
+    }
   }, [week]);
+
+  const statCards = {
+    OFF: <POffStats player={statsMutation.activePlayer as PlayerStats} />,
+    DEF: <PDefStats player={statsMutation.activePlayer as PlayerStats} />,
+    ST: <PSTStats player={statsMutation.activePlayer as PlayerStats} />,
+  };
 
   return (
     <div className="px-4 flex flex-col justify-center items-center">
       {/* ********** Card Header *********** */}
-      {team && (
+      {teamMutation.team && (
         <div className={`flex flex-col md:flex-row rounded p-2 gap-4 mb-4`}>
           <div className="flex">
             <img
               className="h-36 w-36"
-              src={team.WikipediaLogoUrl}
+              src={teamMutation.team.WikipediaLogoUrl}
               alt={"team logo"}
             />
             <div className="flex gap-6">
               <div className="flex flex-col gap-2 p-2">
                 <h2 className="font-bold flex flex-col">
-                  <span className="text-gray-400">{team.City}</span>
-                  <span className="text-4xl">{team.Name}</span>
+                  <span className="text-gray-400">
+                    {teamMutation.team.City}
+                  </span>
+                  <span className="text-4xl">{teamMutation.team.Name}</span>
                 </h2>
                 <div className="flex gap-4">
                   <Stat
-                    options={{ title: "OFF", stat: team.OffensiveScheme }}
+                    options={{
+                      title: "OFF",
+                      stat: teamMutation.team.OffensiveScheme,
+                    }}
                   />
                   <Stat
-                    options={{ title: "DEF", stat: team.DefensiveScheme }}
+                    options={{
+                      title: "DEF",
+                      stat: teamMutation.team.DefensiveScheme,
+                    }}
                   />
                 </div>
               </div>
@@ -105,20 +72,23 @@ function Home() {
           </div>
           <div className="flex flex-col px-4 justify-center items-center md:items-start">
             <h2 className="text-xl font-bold pb-2 text-center md:text-left">
-              {team.StadiumDetails.Name}
+              {teamMutation.team.StadiumDetails.Name}
             </h2>
             <div className="flex flex-col gap-4">
               <div className="flex gap-2">
                 <Stat
                   options={{
                     title: "Surface",
-                    stat: team.StadiumDetails.PlayingSurface,
+                    stat: teamMutation.team.StadiumDetails.PlayingSurface,
                   }}
                 />
                 <Stat
                   options={{
                     title: "Stadium",
-                    stat: team.StadiumDetails.Type.replace(/([A-Z])/g, " $1"),
+                    stat: teamMutation.team.StadiumDetails.Type.replace(
+                      /([A-Z])/g,
+                      " $1"
+                    ),
                   }}
                 />
               </div>
@@ -151,33 +121,41 @@ function Home() {
         showTeams={true}
       />
       {/* ************ player stats ************ */}
-      {activePlayer && (
+      {statsMutation.activePlayer && (
         <div className="py-2 px-4 rounded mb-4 bg-slate-900/50">
           <h2 className="text-2xl text-center font-bold mb-4">
-            {activePlayer.Name} #{activePlayer.Number}
+            {statsMutation.activePlayer.Name} #
+            {statsMutation.activePlayer.Number}
           </h2>
           <div className="flex justify-around flex-col sm:flex-row gap-4">
-            <PGenStats player={activePlayer as PlayerStats} />
+            <PGenStats player={statsMutation.activePlayer as PlayerStats} />
 
-            {statCards[activePlayer.PositionCategory]}
-            {activePlayer.PositionCategory !== "ST" && (
-              <PSTStats player={activePlayer as PlayerStats} />
+            {statCards[statsMutation.activePlayer.PositionCategory]}
+            {statsMutation.activePlayer.PositionCategory !== "ST" && (
+              <PSTStats player={statsMutation.activePlayer as PlayerStats} />
             )}
           </div>
         </div>
       )}
       {/* ************ position select ************ */}
       <div className="flex flex-wrap gap-2">
-        {data &&
-          active &&
-          Object.keys(data).map((position) => (
+        {teamMutation.teamData.data &&
+          teamMutation.active &&
+          Object.keys(teamMutation.teamData.data.players).map((position) => (
             <div
               className={`hover:cursor-pointer bg-slate-900 rounded py-2 w-10 sm:w-12 mx-auto font-bold text-center ${
-                active[0].Position === position
+                teamMutation.active &&
+                teamMutation.active[0].Position === position
                   ? "text-white bg-slate-700 border-2 border-white"
                   : "text-gray-400 hover:text-white hover:bg-slate-700"
               }`}
-              onClick={() => setActive(data[position])}
+              onClick={() =>
+                teamMutation.handleActive(
+                  teamMutation.teamData.data?.players[
+                    position
+                  ] as PlayerDetails[]
+                )
+              }
               key={position}
             >
               {position}
@@ -186,22 +164,22 @@ function Home() {
       </div>
       {/* ************ player select ************ */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 my-4">
-        {active &&
-          stats &&
-          active.map((player) => (
+        {teamMutation.active &&
+          statsMutation.stats &&
+          teamMutation.active.map((player) => (
             <div
               onClick={() => {
-                const playerSet = stats.find(
+                const playerSet = statsMutation.stats?.find(
                   (p) => p.PlayerID === player.PlayerID
                 );
-                setActivePlayer((cur) => (playerSet ? playerSet : cur));
+                statsMutation.handleActivePlayer(playerSet);
               }}
               className={`flex gap-2 px-2 pb-2 bg-slate-900 ${
-                stats?.find((p) => p.PlayerID === player.PlayerID)
+                statsMutation.stats?.find((p) => p.PlayerID === player.PlayerID)
                   ? `${
-                      activePlayer?.PlayerID === player.PlayerID
+                      statsMutation.activePlayer?.PlayerID === player.PlayerID
                         ? "border-2 border-white"
-                        : "hover:cursor-pointer hover:cursor-pointer hover:bg-slate-700"
+                        : "hover:cursor-pointer hover:bg-slate-700"
                     }`
                   : "opacity-50"
               }`}
