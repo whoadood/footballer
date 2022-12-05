@@ -84,6 +84,7 @@ export default function Schedule({ schedule }: { schedule: ScheduleType }) {
       <WeekSelect
         weeks={weeks}
         state={{ variable: active, setter: setActive }}
+        showTeams={false}
       />
       {active && (
         <ul className="grid gap-2 grid-rows-5 bg-slate-900/50 p-2 rounded md:grid-rows-3 grid-cols-4 lg:grid-cols-7 md:grid-cols-6">

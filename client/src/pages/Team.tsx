@@ -137,6 +137,7 @@ function Home() {
           "week18",
         ]}
         state={{ variable: week, setter: setWeek }}
+        showTeams={true}
       />
       {/* ************ player stats ************ */}
       {statsMutation.activePlayer && (
