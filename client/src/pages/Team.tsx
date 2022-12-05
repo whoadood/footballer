@@ -12,7 +12,26 @@ import useTeamStats from "../hooks/useTeamStats";
 
 function Home() {
   const { teamslug } = useParams();
-  const [week, setWeek] = useState<string>("week1");
+  const [week, setWeek] = useState<
+    | "week1"
+    | "week2"
+    | "week3"
+    | "week4"
+    | "week5"
+    | "week6"
+    | "week7"
+    | "week8"
+    | "week9"
+    | "week10"
+    | "week11"
+    | "week12"
+    | "week13"
+    | "week14"
+    | "week15"
+    | "week16"
+    | "week17"
+    | "week18"
+  >("week1");
   const statsMutation = useTeamStats();
   const teamMutation = useTeamPage();
 
@@ -118,7 +137,6 @@ function Home() {
           "week18",
         ]}
         state={{ variable: week, setter: setWeek }}
-        showTeams={true}
       />
       {/* ************ player stats ************ */}
       {statsMutation.activePlayer && (

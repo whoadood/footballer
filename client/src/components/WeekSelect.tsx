@@ -1,22 +1,76 @@
 import React from "react";
-import useHomePage from "../hooks/useHomePage";
-
 export default function WeekSelect({
   weeks,
   state,
-  showTeams,
 }: {
-  weeks: any[];
+  weeks: [
+    "week1",
+    "week2",
+    "week3",
+    "week4",
+    "week5",
+    "week6",
+    "week7",
+    "week8",
+    "week9",
+    "week10",
+    "week11",
+    "week12",
+    "week13",
+    "week14",
+    "week15",
+    "week16",
+    "week17",
+    "week18"
+  ];
   state: {
-    variable: string;
-    setter: React.Dispatch<React.SetStateAction<string>>;
+    variable:
+      | string
+      | "week1"
+      | "week2"
+      | "week3"
+      | "week4"
+      | "week5"
+      | "week6"
+      | "week7"
+      | "week8"
+      | "week9"
+      | "week10"
+      | "week11"
+      | "week12"
+      | "week13"
+      | "week14"
+      | "week15"
+      | "week16"
+      | "week17"
+      | "week18";
+    setter: React.Dispatch<
+      React.SetStateAction<
+        | "week1"
+        | "week2"
+        | "week3"
+        | "week4"
+        | "week5"
+        | "week6"
+        | "week7"
+        | "week8"
+        | "week9"
+        | "week10"
+        | "week11"
+        | "week12"
+        | "week13"
+        | "week14"
+        | "week15"
+        | "week16"
+        | "week17"
+        | "week18"
+      >
+    >;
   };
-  showTeams: boolean;
 }) {
-  const homeData = useHomePage();
   return (
     <div className={`py-2 grid grid-cols-6 grid-rows-2 md:grid-cols-9 gap-2`}>
-      {weeks.map((k: any, i: number) => {
+      {weeks.map((k, i) => {
         return (
           <div
             onClick={() => state.setter(k)}

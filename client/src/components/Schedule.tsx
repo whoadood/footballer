@@ -15,8 +15,66 @@ const formatDate = (date: string) => {
 };
 
 export default function Schedule({ schedule }: { schedule: ScheduleType }) {
-  const [active, setActive] = useState<string>("week1");
-  const weeks = Object.keys(schedule);
+  const [active, setActive] = useState<
+    | "week1"
+    | "week2"
+    | "week3"
+    | "week4"
+    | "week5"
+    | "week6"
+    | "week7"
+    | "week8"
+    | "week9"
+    | "week10"
+    | "week11"
+    | "week12"
+    | "week13"
+    | "week14"
+    | "week15"
+    | "week16"
+    | "week17"
+    | "week18"
+  >("week1");
+  const weeks: [
+    "week1",
+    "week2",
+    "week3",
+    "week4",
+    "week5",
+    "week6",
+    "week7",
+    "week8",
+    "week9",
+    "week10",
+    "week11",
+    "week12",
+    "week13",
+    "week14",
+    "week15",
+    "week16",
+    "week17",
+    "week18"
+  ] = [
+    "week1",
+    "week2",
+    "week3",
+    "week4",
+    "week5",
+    "week6",
+    "week7",
+    "week8",
+    "week9",
+    "week10",
+    "week11",
+    "week12",
+    "week13",
+    "week14",
+    "week15",
+    "week16",
+    "week17",
+    "week18",
+  ];
+  console.log("weeks schedule", weeks);
   //   .sort(
   //     (a, b) => Number(a.split("week")[0]) - Number(b.split("week")[0])
   //   );
@@ -26,7 +84,6 @@ export default function Schedule({ schedule }: { schedule: ScheduleType }) {
       <WeekSelect
         weeks={weeks}
         state={{ variable: active, setter: setActive }}
-        showTeams={false}
       />
       {active && (
         <ul className="grid gap-2 grid-rows-5 bg-slate-900/50 p-2 rounded md:grid-rows-3 grid-cols-4 lg:grid-cols-7 md:grid-cols-6">

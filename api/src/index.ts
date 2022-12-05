@@ -12,7 +12,7 @@ import {
   getPlayerStats,
 } from "./utils/services";
 import { filterByPosition } from "./utils/data-manip";
-import { Game, PlayerDetails } from "./utils/types";
+import { Game, PlayerDetails, Schedule } from "./utils/types";
 
 config();
 
@@ -34,14 +34,17 @@ app.get("/", async (_req: Request, res: Response) => {
     );
     return { ...team, ...teamDetails[0] };
   });
-  const formatSchedule = schedule.reduce((acc: Record<string, Game[]>, cur) => {
-    if (acc[`week${cur.Week}`]) {
-      acc[`week${cur.Week}`].push(cur);
-    } else {
-      acc[`week${cur.Week}`] = [cur];
-    }
-    return acc;
-  }, {});
+  const formatSchedule: Schedule = schedule.reduce(
+    (acc: any | Schedule, cur) => {
+      if (acc[`week${cur.Week}`]) {
+        acc[`week${cur.Week}`].push(cur);
+      } else {
+        acc[`week${cur.Week}`] = [cur];
+      }
+      return acc as Schedule;
+    },
+    {}
+  );
 
   res.json({ standings: teamsStandings, schedule: formatSchedule });
 });

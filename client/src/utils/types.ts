@@ -356,7 +356,26 @@ export type TeamDetails = {
   AverageDraftPositionDynasty: number;
   StadiumDetails: StadiumDetails;
 };
-export type ScheduleType = Record<string, Game[]>;
+export type ScheduleType = {
+  week1: Game[];
+  week2: Game[];
+  week3: Game[];
+  week4: Game[];
+  week5: Game[];
+  week6: Game[];
+  week7: Game[];
+  week8: Game[];
+  week9: Game[];
+  week10: Game[];
+  week11: Game[];
+  week12: Game[];
+  week13: Game[];
+  week14: Game[];
+  week15: Game[];
+  week16: Game[];
+  week17: Game[];
+  week18: Game[];
+};
 export type Weather = {
   time_epoch: number; // 1668751200
   time: string; // "2022-11-18 00:00"

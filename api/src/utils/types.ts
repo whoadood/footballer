@@ -29,6 +29,26 @@ export type Game = {
   Status: string;
   StadiumDetails: StadiumDetails;
 };
+export type Schedule = {
+  week1: Game[];
+  week2: Game[];
+  week3: Game[];
+  week4: Game[];
+  week5: Game[];
+  week6: Game[];
+  week7: Game[];
+  week8: Game[];
+  week9: Game[];
+  week10: Game[];
+  week11: Game[];
+  week12: Game[];
+  week13: Game[];
+  week14: Game[];
+  week15: Game[];
+  week16: Game[];
+  week17: Game[];
+  week18: Game[];
+};
 type StadiumDetails = {
   StadiumID: number;
   Name: string;
