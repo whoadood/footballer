@@ -54,7 +54,7 @@ function Home() {
   };
 
   return (
-    <div className="px-4 flex flex-col justify-center items-center">
+    <div className="px-2 flex flex-col justify-center items-center">
       {/* ********** Card Header *********** */}
       {teamMutation.team && (
         <div className={`flex flex-col md:flex-row rounded p-2 gap-4 mb-4`}>
@@ -141,7 +141,7 @@ function Home() {
       />
       {/* ************ player stats ************ */}
       {statsMutation.activePlayer && (
-        <div className="py-2 px-4 rounded mb-4 bg-slate-900/50">
+        <div className="py-2 px-4 rounded mb-4">
           <h2 className="text-2xl text-center font-bold mb-4">
             {statsMutation.activePlayer.Name} #
             {statsMutation.activePlayer.Number}
@@ -208,12 +208,21 @@ function Home() {
                 <img src={player.PhotoUrl} alt="player headshot" />
               </div>
               <div>
-                <p className="font-bold text-xl">{player.Name}</p>
+                <div className="flex gap-4 pt-2">
+                  <p className="font-bold text-xl">{player.Name}</p>
+                  <span
+                    className={`block rounded-full h-3 w-3 ${
+                      player.Status === "Active" ? "bg-green-500" : ""
+                    }${
+                      player.Status === "Practice Squad" ? "bg-orange-400" : ""
+                    }${player.Status.match("Injured") ? "bg-red-500" : ""}`}
+                  />
+                </div>
                 <p>{player.Age}</p>
                 <p>
                   {player.Height} - {player.Weight} lbs
                 </p>
-                <p
+                {/* <p
                   className={`
                   ${player.Status === "Active" ? "text-green-500" : ""}
                   ${player.Status === "Practice Squad" ? "text-orange-400" : ""}
@@ -221,7 +230,7 @@ function Home() {
                   `}
                 >
                   {player.Status}
-                </p>
+                </p> */}
               </div>
             </div>
           ))}
