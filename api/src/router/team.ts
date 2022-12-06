@@ -8,11 +8,11 @@ import { PlayerDetails } from "../utils/types";
 
 const router = Router();
 
-router.post("/", async (req: Request, res: Response) => {
-  const { team } = req.body;
+router.get("/:team", async (req: Request, res: Response) => {
+  const { team } = req.params;
   const teams = await getTeamsDetails();
   const teamDetails = teams.filter((t) => t.Key === team);
-  const players = await getTeamPlayers(team);
+  const players = await getTeamPlayers(team as string);
 
   const formatPlayers = players.reduce(
     (acc: Record<string, PlayerDetails[]>, cur) => {
@@ -28,8 +28,8 @@ router.post("/", async (req: Request, res: Response) => {
   res.json({ players: formatPlayers, team: teamDetails[0] });
 });
 
-router.post("/stats", async (req: Request, res: Response) => {
-  const { week, team } = req.body;
+router.get("/stats/:week/:team", async (req: Request, res: Response) => {
+  const { week, team } = req.params;
   const playerStats = await getPlayerStats(week, team);
   res.json(playerStats);
 });

@@ -4,6 +4,7 @@ import { getGameByTeam, getTeamsDetails, getWeather } from "../utils/services";
 const router = Router();
 
 router.post("/", async (req: Request, res: Response) => {
+  console.log("ping /game");
   const { week, gameId } = req.body;
   const data = await getGameByTeam(week);
   const teams = await getTeamsDetails();

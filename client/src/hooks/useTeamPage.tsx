@@ -1,37 +1,35 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { PlayerDetails, TeamDetails } from "../utils/types";
+import { useParams } from "react-router-dom";
 
 const getTeamData = async (
-  team: string
+  team: string | undefined
 ): Promise<{ players: Record<string, PlayerDetails[]>; team: TeamDetails }> => {
-  const res = await fetch("http://localhost:5000/team", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({ team: team }),
-  });
+  console.log("fetch team,", team);
+  const res = await fetch(`http://localhost:5000/team/${team}`);
   if (!res.ok) throw new Error("Error fetching team data");
   return res.json();
 };
 
 export default function useTeamPage() {
   const [active, setActive] = useState<PlayerDetails[] | null>(null);
-  const [team, setTeam] = useState<TeamDetails | null>(null);
+  const { teamslug } = useParams();
+  console.log("use team page hook, ", teamslug);
 
   const handleActive = (player: PlayerDetails[]) => {
     console.log("active", active);
     setActive(player);
   };
 
-  const teamData = useMutation(getTeamData, {
+  const teamData = useQuery(["team"], () => getTeamData(teamslug), {
+    enabled: !!teamslug,
     onSuccess: (data) => {
       setActive(data.players["QB"]);
-      setTeam(data.team);
     },
   });
-  return { teamData, team, active, handleActive };
+
+  return { teamData, active, handleActive };
 }
 
 /* 

@@ -5,6 +5,7 @@ import { filterByPosition } from "../utils/data-manip";
 const router = Router();
 
 router.get("/", async (_req: Request, res: Response) => {
+  console.log("ping /depth");
   const data = await getDepthChart();
   const qb = filterByPosition(data, "QB");
   const wr = filterByPosition(data, "WR");
