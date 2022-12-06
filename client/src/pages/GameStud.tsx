@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import General from "../components/GeneralTable";
-import Offense from "../components/OffenseTable";
 import Stat from "../components/Stat";
 import StatsTable from "../components/StatsTable";
-import TeamCard from "../components/TeamCard";
 import useGame from "../hooks/useGame";
-import { GameDetails, TeamDetails, Weather } from "../utils/types";
 
 export default function GameStud() {
   const { gameId, week } = useParams();
@@ -22,16 +18,6 @@ export default function GameStud() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 px-2">
       <div className="col-span-2">
-        {/* 
-		Stadium: "Soldier Field"
-		Date: "2022-09-11T13:00:00"
-		DayOfWeek: "Sunday"
-		Humidity: 86
-		OverUnder: 32.3
-		PlayingSurface: "Grass"
-		PointSpread: 4.8
-		WindSPeed: 15 
-	*/}
         {gameMutation.gameData.data && (
           <div className="bg-slate-900 p-4 rounded flex flex-col-reverse md:flex-row gap-4 md:gap-2">
             <div className="mr-6 flex items-center">
@@ -195,7 +181,16 @@ export default function GameStud() {
   );
 }
 
-/* 
+/*
+
+		Stadium: "Soldier Field"
+		Date: "2022-09-11T13:00:00"
+		DayOfWeek: "Sunday"
+		Humidity: 86
+		OverUnder: 32.3
+		PlayingSurface: "Grass"
+		PointSpread: 4.8
+		WindSPeed: 15 
 
 ****** GENERAL STATS ******
 
