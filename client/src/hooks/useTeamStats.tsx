@@ -46,7 +46,7 @@ export default function useTeamStats() {
   };
 
   const teamStats = useQuery(
-    ["stats", { teamslug, week }],
+    [`stats${teamslug}`, { teamslug, week }],
     () => getTeamStats({ team: teamslug, week }),
     {
       enabled: !!teamslug,

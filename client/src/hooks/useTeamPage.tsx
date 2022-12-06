@@ -22,7 +22,7 @@ export default function useTeamPage() {
     setActive(player);
   };
 
-  const teamData = useQuery(["team"], () => getTeamData(teamslug), {
+  const teamData = useQuery([`team${teamslug}`], () => getTeamData(teamslug), {
     enabled: !!teamslug,
     onSuccess: (data) => {
       setActive(data.players["QB"]);

@@ -5,54 +5,53 @@ import StatsTable from "../components/StatsTable";
 import useGame from "../hooks/useGame";
 
 export default function GameStud() {
-  const { gameId, week } = useParams();
-  const gameMutation = useGame();
+  const gameData = useGame();
 
-  useEffect(() => {
-    gameMutation.gameData.mutate({ week, gameId } as {
-      week: string;
-      gameId: string;
-    });
-  }, []);
+  // useEffect(() => {
+  //   gameData.gameData.mutate({ week, gameId } as {
+  //     week: string;
+  //     gameId: string;
+  //   });
+  // }, []);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 px-2">
       <div className="col-span-2">
-        {gameMutation.gameData.data && (
+        {gameData.gameData.data && (
           <div className="bg-slate-900 p-4 rounded flex flex-col-reverse md:flex-row gap-4 md:gap-2">
             <div className="mr-6 flex items-center">
               <img
                 className="h-24 w-24 mr-4"
-                src={gameMutation.gameData.data.weather.condition.icon}
+                src={gameData.gameData.data.weather.condition.icon}
                 alt="weather icon"
               />
               <div>
                 <p className="text-2xl mb-4 text-center font-bold">
-                  {gameMutation.gameData.data.weather.condition.text}
+                  {gameData.gameData.data.weather.condition.text}
                 </p>
                 <div className="flex gap-2">
                   <Stat
                     options={{
                       title: "Temp",
-                      stat: `${gameMutation.gameData.data.weather.temp_f} deg`,
+                      stat: `${gameData.gameData.data.weather.temp_f} deg`,
                     }}
                   />
                   <Stat
                     options={{
                       title: "Wind Dir",
-                      stat: gameMutation.gameData.data.weather.wind_dir,
+                      stat: gameData.gameData.data.weather.wind_dir,
                     }}
                   />
                   <Stat
                     options={{
                       title: "Rain Chance",
-                      stat: `${gameMutation.gameData.data.weather.chance_of_rain}%`,
+                      stat: `${gameData.gameData.data.weather.chance_of_rain}%`,
                     }}
                   />
                   <Stat
                     options={{
                       title: "Snow Change",
-                      stat: `${gameMutation.gameData.data.weather.chance_of_snow}%`,
+                      stat: `${gameData.gameData.data.weather.chance_of_snow}%`,
                     }}
                   />
                 </div>
@@ -60,24 +59,24 @@ export default function GameStud() {
             </div>
             <div className="flex flex-col justify-center">
               <h2 className="text-4xl font-bold pb-2 text-center md:text-left">
-                {gameMutation.gameData.data.formatDetails[0].Stadium}
+                {gameData.gameData.data.formatDetails[0].Stadium}
               </h2>
               <div className="flex items-center flex-col gap-4">
-                {gameMutation.gameData.data.formatDetails[0].Date && (
+                {gameData.gameData.data.formatDetails[0].Date && (
                   <div className="flex items-center gap-4">
                     <span>
-                      {gameMutation.gameData.data.formatDetails[0].DayOfWeek}
+                      {gameData.gameData.data.formatDetails[0].DayOfWeek}
                     </span>
                     <span>
                       {
-                        gameMutation.gameData.data.formatDetails[0].Date.split(
+                        gameData.gameData.data.formatDetails[0].Date.split(
                           "T"
                         )[0]
                       }
                     </span>{" "}
                     <span>
                       {
-                        gameMutation.gameData.data.formatDetails[0].Date.split(
+                        gameData.gameData.data.formatDetails[0].Date.split(
                           "T"
                         )[1]
                       }
@@ -85,19 +84,18 @@ export default function GameStud() {
                   </div>
                 )}
                 <div className="flex items-center gap-2">
-                  {gameMutation.gameData.data.formatDetails[0].Humidity && (
+                  {gameData.gameData.data.formatDetails[0].Humidity && (
                     <Stat
                       options={{
                         title: "Humidity",
-                        stat: gameMutation.gameData.data.formatDetails[0]
-                          .Humidity,
+                        stat: gameData.gameData.data.formatDetails[0].Humidity,
                       }}
                     />
                   )}
                   <Stat
                     options={{
                       title: "Surface",
-                      stat: gameMutation.gameData.data.formatDetails[0]
+                      stat: gameData.gameData.data.formatDetails[0]
                         .PlayingSurface,
                     }}
                   />
@@ -105,9 +103,8 @@ export default function GameStud() {
                     options={{
                       title: "Wind Speed",
                       stat: `${
-                        gameMutation.gameData.data.formatDetails[0].WindSpeed
-                          ? gameMutation.gameData.data.formatDetails[0]
-                              .WindSpeed
+                        gameData.gameData.data.formatDetails[0].WindSpeed
+                          ? gameData.gameData.data.formatDetails[0].WindSpeed
                           : 0
                       } mph`,
                     }}
@@ -116,15 +113,14 @@ export default function GameStud() {
                     options={{
                       title: "Stadium",
                       stat:
-                        gameMutation.gameData.data.formatDetails[0]
-                          .StadiumID ===
-                        gameMutation.gameData.data.formatDetails[0]
-                          .StadiumDetails.StadiumID
-                          ? gameMutation.gameData.data.formatDetails[0].StadiumDetails.Type.replace(
+                        gameData.gameData.data.formatDetails[0].StadiumID ===
+                        gameData.gameData.data.formatDetails[0].StadiumDetails
+                          .StadiumID
+                          ? gameData.gameData.data.formatDetails[0].StadiumDetails.Type.replace(
                               /([A-Z])/g,
                               " $1"
                             )
-                          : gameMutation.gameData.data.formatDetails[1].StadiumDetails.Type.replace(
+                          : gameData.gameData.data.formatDetails[1].StadiumDetails.Type.replace(
                               /([A-Z])/g,
                               " $1"
                             ),
@@ -136,8 +132,8 @@ export default function GameStud() {
           </div>
         )}
       </div>
-      {gameMutation.gameData.data &&
-        gameMutation.gameData.data.formatDetails.map((team) => (
+      {gameData.gameData.data &&
+        gameData.gameData.data.formatDetails.map((team) => (
           <div
             key={team.GlobalTeamID}
             className="bg-slate-700 rounded col-span-2 md:col-span-1"

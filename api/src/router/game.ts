@@ -3,12 +3,14 @@ import { getGameByTeam, getTeamsDetails, getWeather } from "../utils/services";
 
 const router = Router();
 
-router.post("/", async (req: Request, res: Response) => {
-  console.log("ping /game");
-  const { week, gameId } = req.body;
+router.get("/:week/:gameId", async (req: Request, res: Response) => {
+  const { week, gameId } = req.params;
+
+  console.log("week and gameid,", week, gameId);
+
   const data = await getGameByTeam(week);
   const teams = await getTeamsDetails();
-  const gameDetails = data.filter((g) => g.GlobalGameID == gameId);
+  const gameDetails = data.filter((g) => g.GlobalGameID == Number(gameId));
   const formatDetails = gameDetails.map((team) => {
     const teamDetails = teams.filter(
       (t) => t.GlobalTeamID === team.GlobalTeamID
