@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import Stat from "../components/Stat";
 import StatsTable from "../components/StatsTable";
 import useGame from "../hooks/useGame";
